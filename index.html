@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <title>Dangerzone</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="assets/css/reset.css">
+  <link rel="stylesheet" href="assets/css/style.css">
+  <link rel="icon" type="image/x-icon" href="/favicon.ico">
+  <meta name="description" content="Take potentially dangerous PDFs, office documents, or images and convert them to a safe PDF.">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta property="og:title" content="Dangerzone">
+  <meta property="og:type" content="website">
+  <meta property="og:image" content="/assets/img/logo.png">
+  <meta property="og:image:type" content="image/png">
+  <meta property="og:image:width" content="300">
+  <meta property="og:image:height" content="300">
+  <meta property="og:url" content="https://dangerzone.rocks">
+  <meta property="og:description" content="Take potentially dangerous PDFs, office documents, or images and convert them to a safe PDF.">
+</head>
+
+<body>
+  <header>
+    <nav class="clearfix">
+      <ul>
+        <li><a href="https://github.com/firstlookmedia/dangerzone/issues?state=open" target="_blank"
+            data-l10n="bugs">Report an Issue</a></li>
+        <li><a href="https://github.com/firstlookmedia/dangerzone" target="_blank" data-l10n="fork-github">Fork me on
+            GitHub</a></li>
+      </ul>
+    </nav>
+  </header>
+  <div id="intro">
+    <div class="wrapper">
+      <img src="assets/img/logo.png" title="Dangerzone">
+      <h1>Dangerzone</h1>
+      <p data-l10n="slogan" class="title">Take potentially dangerous PDFs, office documents, or images and convert them to a safe PDF.</p>
+
+      <a class="buttonPrimary" href="#downloads" data-l10n="download">Download</a>
+
+      <a class="button" href="https://github.com/firstlookmedia/dangerzone/blob/master/README.md" target="_blank"
+        class="buttonSecondary" data-l10n="learn-more" rel="noreferrer noopener">Learn More</a>
+    </div>
+  </div>
+  <section class="wrapper" id="features">
+    <div class="feature">
+      <p class="title">No Network Access</p>
+      <p>Sandboxes don't have network access, so if a malicious document 
+        can compromise one, it can't phone home</p>
+    </div>
+    <div class="feature">
+      <p class="title">Optional OCR</p>
+      <p>Dangerzone can optionally OCR the safe PDFs it creates, so it 
+        will have a text layer again</p>
+    </div>
+    <div class="feature">
+      <p class="title">Reduced File Size</p>
+      <p>Dangerzone compresses the safe PDF to reduce file size</p>
+    </div>
+    <div class="feature">
+      <p class="title">Open Docs Safely</p>
+      <p>After converting, dangerzone lets you open the safe PDF in the PDF
+        viewer of your choice, which allows you to open PDFs and office docs
+        in dangerzone by default so you never accidentally open a dangerous document</p>
+    </div>
+  </section>
+  <section id="downloads" class="wrapper clearfix">
+    <h2 data-l10n="download">Download</h2>
+    <div class="clearfix">
+      <div class="osPrimary">
+        <img src="assets/img/apple-logo.png" alt="Apple Logo">
+        <p class="title">MacOS</p>
+        <a class="button" href="https://github.com/firstlookmedia/dangerzone/releases/download/v0.1/Dangerzone.0.1.dmg" data-l10n="for-macosx">Download for MacOS</a>
+      </div>
+      <div class="osPrimary">
+        <img src="assets/img/windows-logo.png" alt="Windows Logo">
+        <p class="title">Windows</p>
+        <a class="button" href="https://github.com/firstlookmedia/dangerzone/releases/download/v0.1/Dangerzone.0.1.msi" data-l10n="for-windows">Download for
+          Windows</a>
+      </div>
+    </div>
+    <div class="clearfix">
+      <div class="osSecondary">
+        <img src="assets/img/ubuntu-logo.png" alt="Ubuntu Logo">
+        <p class="title">Ubuntu</p>
+        <p data-l10n="ubuntu-instructions">If you are using Ubuntu(or Debian-like distros), follow installation instructions:</p>
+        <a class="button" 
+        href="https://github.com/firstlookmedia/dangerzone/wiki/Installing-Dangerzone#debian-or-ubuntu" 
+        data-l10n="for-ubuntu">Install in Ubuntu</a>
+      </div>
+      <div class="osSecondary">
+        <img src="assets/img/fedora-logo.png" alt="Fedora Logo">
+        <p class="title">Fedora</p>
+        <p data-l10n="fedora-instructions">If you are using Fedora(or Fedora-like distros), follow installation instructions:</p>
+        <a class="button" 
+        href="https://github.com/firstlookmedia/dangerzone/wiki/Installing-Dangerzone#fedora" 
+        data-l10n="for-ubuntu">Install in Fedora</a>
+      </div>
+      <div class="osSecondary">
+        <img src="assets/img/linux-logo.png" alt="Linux Logo">
+        <p class="title">Other Linux</p>
+        <p data-l10n="linux-instructions">If you are using a different version of Linux, follow <a
+            href="https://github.com/firstlookmedia/dangerzone/blob/master/BUILD.md">these build
+            instructions</a> to install.</p>
+      </div>
+    </div>
+  </section>
+  <section class="wrapper" id="news">
+    <h2 data-l10n="news">How It Works</h2>
+    <div class="clearfix">
+      <p>Dangerzone works like this: You give it a document that you don't know 
+        if you can trust (for example, an email attachment). Inside of a sandbox,
+        dangerzone converts the document to a PDF (if it isn't already one), and 
+        then converts the PDF into raw pixel data: a huge list of of RGB color 
+        values for each page. Then, in a separate sandbox, dangerzone takes this 
+        pixel data and converts it back into a PDF.</p>
+    </div>
+  </section>
+  <footer>
+    <div class="wrapper">
+      <p data-l10n="disclaimer">Dangerzone was developed by <a href="https://twitter.com/micahflee">Micah Lee</a>
+        and is open source, released under the GPLv3.</p>
+      <p>Like all software, Dangerzone may contain bugs or vulnerabilities.</p>
+    </div>
+  </footer>
+</body>
+
+</html>

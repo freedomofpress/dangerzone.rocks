@@ -1,0 +1,364 @@
+* {
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    transition: .1s;
+}
+
+.clearfix:after {
+    content: ".";
+    display: block;
+    clear: both;
+    visibility: hidden;
+    line-height: 0;
+    height: 0;
+}
+
+::selection {
+    background-color: #f97b25;
+    color: #fff;
+}
+
+
+html {
+    font-family: sans-serif;
+    min-width: 320px;
+    /*narrowest iPhone width*/
+}
+
+h1 {
+    font-size: 4rem;
+    line-height: 5.25rem;
+    margin-bottom: 1rem;
+}
+
+h2 {
+    text-transform: uppercase;
+    color: #592a00;
+    font-size: 2.5rem;
+    text-align: center;
+    margin-bottom: 1.5rem;
+}
+
+p {
+    font-size: 1rem;
+    line-height: 1.5rem;
+}
+
+a {
+    line-height: 1.5rem;
+    color: #592a00;
+}
+
+.button {
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    padding: .625rem 1rem;
+    color: #592a00;
+    border-radius: 3px;
+    font-size: .875rem;
+    text-decoration: none;
+    background-color: #fff;
+    display: inline-block;
+}
+
+.buttonPrimary {
+    border: 3px solid #000;
+    padding: .625rem 1rem;
+    background-color: #592a00;
+    border-radius: 3px;
+    font-size: 1rem;
+    font-weight: bold;
+    color: #ffffff;
+    text-decoration: none;
+    margin: 0 .5rem 0 0;
+}
+
+.buttonPrimary:hover {
+    background-color: #592a00;
+    color: #ffffff;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.15);
+}
+
+.button:hover {
+    background-color: #fafafa;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.15);
+}
+
+.wrapper {
+    width: 960px;
+    margin: 0 auto;
+    padding: 3rem;
+}
+
+
+
+/*HEADER*/
+
+header {
+    padding: 1.5rem 1rem;
+    position: absolute;
+    right: 0;
+}
+
+header nav {
+    float: right;
+    font-size: .75rem;
+}
+
+header ul li {
+    display: inline;
+    margin: 0 0 0 .5rem;
+}
+
+header nav a {
+    color: #ffffff;
+}
+
+/*INTRO*/
+
+#intro {
+    text-align: center;
+    color: #ffffff;
+    padding: 4.5rem 0 6rem 0;
+    min-height: 100vh;
+    /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#fcfcfc+0,f2f2f2+100 */
+    background: #592a00;
+    /* Old browsers */
+    background: -moz-linear-gradient(top, #592a00 0%, #f97b25 100%);
+    /* FF3.6-15 */
+    background: -webkit-linear-gradient(top, #592a00 0%, #f97b25 100%);
+    /* Chrome10-25,Safari5.1-6 */
+    background: linear-gradient(to bottom, #592a00 0%, #f97b25 100%);
+    /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#fcfcfc', endColorstr='#f2f2f2', GradientType=0);
+    /* IE6-9 */
+}
+
+#intro img {
+    width: 8rem;
+    margin-bottom: 1rem;
+}
+
+#intro .secondary {
+    font-size: .875rem;
+    margin-bottom: 1rem;
+}
+
+#intro p:last-of-type {
+    margin: 0 0 3rem 0
+}
+
+
+
+/*DOWNLOADS*/
+
+#downloads {
+    text-align: center;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+#downloads img {
+    max-height: 6rem;
+    margin-bottom: 2rem;
+}
+
+.osPrimary {
+    width: 50%;
+    float: left;
+    padding: 3rem 3rem 4rem 3rem;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.osSecondary {
+    width: 33.3%;
+    float: left;
+    padding: 3rem 3rem 0 3rem;
+}
+
+#downloads p {
+    margin-bottom: 1rem;
+}
+
+.title {
+    font-size: 1.5rem;
+    margin-bottom: 3rem;
+    line-height: 2.25rem;
+}
+
+#downloads .osPrimary .title {
+    margin-bottom: 2rem;
+}
+
+#downloads p.code {
+    font-family: "Courier New", Courier, monospace;
+    margin-bottom: .5rem;
+    font-size: .875rem;
+    line-height: 1.25rem;
+}
+
+.code:last-of-type {
+    margin-bottom: 0;
+}
+
+.sig {
+    font-size: .75rem;
+    line-height: 1.25rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    margin-bottom: .5rem;
+}
+
+
+/*NEWS*/
+
+#news {
+    text-align: center;
+}
+
+#news img {
+    display: block;
+    height: 1rem;
+    margin: 2rem auto 1rem auto;
+}
+
+#news p {
+    font-size: 1.25rem;
+    line-height: 1.75rem;
+    margin: 0 0 1rem 0;
+}
+
+#news {
+    clear: left;
+}
+
+#news ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+#news ul li {
+    margin: 0 0 20px 0;
+    padding: 0;
+}
+
+#features {
+    display: flex;
+    background-color: #592a00;
+    color: #ffffff;
+}
+
+#features.wrapper {
+    width: auto;
+}
+
+#features .feature .title {
+    margin-bottom: 1rem;
+}
+
+.feature {
+    flex: 1;
+    padding: 1rem;
+    border-left: 1px #ea7321 solid;
+}
+
+.feature:first-of-type {
+    border-left: none;
+}
+
+@media (max-width: 768px) {
+    #features {
+        display: block;
+    }
+    .feature {
+        border-left: none;
+    }
+}
+
+
+
+/*FOOTER*/
+
+footer {
+    font-size: .75rem;
+    padding: 1rem;
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+    background-color: #592a00;
+    color: #ffffff
+}
+
+footer p {
+    font-size: .75rem;
+    line-height: 1.25rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    margin-bottom: .5rem;
+}
+
+footer a {
+    line-height: inherit;
+    color: #ffffff
+}
+
+footer ul li {
+    display: inline;
+    line-height: 1.5rem;
+    margin: 0 .5rem 0 0;
+}
+
+footer .wrapper {
+    padding: 0;
+}
+
+footer .onion {
+  color: #333333;
+}
+
+footer .onion img {
+  vertical-align: middle;
+  margin-right: .5rem;
+}
+
+@media only screen and (max-width: 960px) {
+    .wrapper {
+        width: 100%;
+    }
+}
+
+@media only screen and (max-width: 768px) {
+    .osPrimary,
+    .osSecondary {
+        width: 100%;
+        float: none;
+        border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+    }
+
+    .osSecondary:last-of-type {
+        border-bottom: none;
+        padding-bottom: 0;
+    }
+
+    .osSecondary {
+        padding: 3rem;
+    }
+}
+
+@media only screen and (max-width: 480px) {
+
+    h1 {
+      font-size: 2.75rem;
+      line-height: 3rem;
+    }
+
+    .wrapper {
+        padding: 3rem 2rem;
+    }
+
+    .osPrimary {
+        padding: 2rem 2rem 3rem 2rem;
+    }
+
+    .osSecondary {
+        padding: 2rem;
+    }
+}

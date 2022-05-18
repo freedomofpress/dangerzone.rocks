@@ -28,9 +28,9 @@
         <ul>
           <li><a href="index.html">Main Page</a></li>
           <li>About</li>
-          <li><a href="https://github.com/freedomofpress/dangerzone/issues?state=open" target="_blank">Report an Issue</a>
+          <li><a href="https://github.com/freedomofpress/dangerzone/issues?state=open" target="_blank" rel="noopener noreferrer">Report an Issue</a>
           </li>
-          <li><a href="https://github.com/freedomofpress/dangerzone" target="_blank">Code on GitHub</a></li>
+          <li><a href="https://github.com/freedomofpress/dangerzone" target="_blank" rel="noopener noreferrer">Code on GitHub</a></li>
         </ul>
       </nav>
     </header>
@@ -55,17 +55,17 @@
         <p>For example, if an attacker knows about a security bug in Microsoft Word, they can carefully craft a Word document that, when opened using a vulnerable version of Word, will hack your computer. All they have to do is trick you into opening it, perhaps by sending you a convincing enough phishing email.</p>
         <p>This is exactly what Russian military intelligence did during the 2016 US election. First, they hacked a US election vendor known as VR Systems and got their client list. Then they send 122 emails to VR Systems’ clients (election workers in swing states) from the email address <b>vrelections@gmail.com</b>, with the attachment "New EViD User Guides.docm".</p>
         <p><img src="assets/img/evid.jpg"></p>
-        <p><i>Screenshot of spearphishing email <a href='https://theintercept.com/2018/06/01/election-hacking-voting-systems-email/'>provided to The Intercept</a> from a North Carolina public records request</i></p>
+        <p><i>Screenshot of spearphishing email <a href="https://theintercept.com/2018/06/01/election-hacking-voting-systems-email/" target="_blank" rel="noopener noreferrer">provided to The Intercept</a> from a North Carolina public records request</i></p>
         <p>If any of the election workers who got this email opened the attachment using a vulnerable version of Word in Windows, the malware would have created a backdoor into their computer for the Russian hackers. (We don’t know if anyone opened the document or not, but they might have.)</p>
         <p>If you got this email today and opened New EViD User Guides.docm using Dangerzone, it will convert it into a safe PDF (New EViD User Guides-safe.pdf), and you can safely open this document in a PDF viewer, without risking getting hacked.</p>
         <h2>Inspired by Qubes TrustedPDF</h2>
-        <p>I got the idea for Dangerzone from Qubes, an operating system that runs everything in virtual machines. In Qubes, you can right-click on a PDF and choose “Convert to TrustedPDF”. I <a href='https://www.youtube.com/watch?v=f4U8YbXKwog'>gave a talk</a> called Qubes OS: The Operating System That Can Protect You Even If You Get Hacked in 2018 at the Circle of HOPE hacker conference in New York. I talk about how TrustedPDF works for about 2 minutes starting at 9:20:</p>
+        <p>I got the idea for Dangerzone from Qubes, an operating system that runs everything in virtual machines. In Qubes, you can right-click on a PDF and choose “Convert to TrustedPDF”. I <a href="https://www.youtube.com/watch?v=f4U8YbXKwog" target="_blank" rel="noopener noreferrer">gave a talk</a> called Qubes OS: The Operating System That Can Protect You Even If You Get Hacked in 2018 at the Circle of HOPE hacker conference in New York. I talk about how TrustedPDF works for about 2 minutes starting at 9:20:</p>
         <iframe width="560" height="340" src="https://www.youtube.com/embed/f4U8YbXKwog" allowfullscreen="" frameborder="0"></iframe>
         <p>Dangerzone was inspired by TrustedPDF but it works in non-Qubes operating systems, which is important, because most of the journalists I know use Macs and probably won’t be jumping to Qubes for some time.</p>
         <p>It uses Linux containers to sandbox dangerous documents instead of virtual machines. And it also adds some features that TrustedPDF doesn’t have: it works with any office documents, not just PDFs; it uses optical character recognition (OCR) to make the safe PDF have a searchable text layer; and it compresses the final safe PDF.</p>
 
         <h2>How does Dangerzone work?</h2>
-        <p>Dangerzone uses Linux containers (two of them), which are sort of like quick, lightweight virtual machines that share the Linux kernel with their host. The easiest way to get containers running on Mac and Windows is by using <a href='https://www.docker.com/products/docker-desktop'>Docker Desktop</a>. So when you first install Dangerzone, if you don’t already have Docker Desktop installed, it helps you download and install it.</p>
+        <p>Dangerzone uses Linux containers (two of them), which are sort of like quick, lightweight virtual machines that share the Linux kernel with their host. The easiest way to get containers running on Mac and Windows is by using <a href="https://www.docker.com/products/docker-desktop" target="_blank" rel="noopener noreferrer">Docker Desktop</a>. So when you first install Dangerzone, if you don’t already have Docker Desktop installed, it helps you download and install it.</p>
         <p>When Dangerzone starts containers, it <em>disables networking</em>, and the only file it mounts is the suspicious document itself. So if a malicious document hacks the container, it doesn’t have access to your data and it can’t use the internet, so there’s not much it could do.</p>
         <p>Here’s how it works. The first container:</p>
 
@@ -106,7 +106,7 @@
         <li>TIFF (.tif, .tiff)</li>
         </ul>
 
-        <h3>It’s still possible to get hacked with Dangerzone</h3>
+        <h2>It’s still possible to get hacked with Dangerzone</h2>
         <p>Like all software, it’s possible that Dangerzone (and more importantly, the software that it relies on like LibreOffice and Docker) has security bugs. Malicious documents are designed to target a specific piece of software – for example, Adobe Reader on Mac. It’s possible that someone could craft a malicious document that specifically targets Dangerzone itself. An attacker would need to chain these exploits together to succeed at hacking Dangerzone:</p>
 
         <ul>
@@ -118,9 +118,8 @@
         <p>If you opened such a malicious document with Dangerzone, it would start the first container and begin the conversion process. While it was converting the original document (say, a docx file) into a PDF using LibreOffice, it would exploit a vulnerability in LibreOffice to hack the container. Then, it would exploit a vulnerability in the Linux kernel to escape the container, and from there attempt to take over the computer.</p>
         <p>If you keep Docker Desktop updated and regularly update the container that Dangerzone uses, such attacks will be much more expensive for attackers.</p>
         <h2>Dangerzone is open source</h2>
-        <p>This tool is still in early development, so there may be bugs. If you find any, please check the <a href='https://github.com/freedomofpress/dangerzone/issues'>issues on GitHub</a> and open one if your issue doesn’t exist. Please start discussions and make pull requests if you’d like to get involved.</p>
-        <p>You can find the code for the Mac, Windows, and Linux graphical app here: <a href='https://github.com/freedomofpress/dangerzone' target='_blank' class='url'>https://github.com/freedomofpress/dangerzone</a></p>
-        <p>And you can find the code for the Linux container here: <a href='https://github.com/freedomofpress/dangerzone-converter' target='_blank' class='url'>https://github.com/freedomofpress/dangerzone-converter</a></p>
+        <p>This tool is still in early development, so there may be bugs. If you find any, please check the <a href="https://github.com/freedomofpress/dangerzone/issues" target="_blank" class="url" rel="noopener noreferrer">issues on GitHub</a> and open one if your issue doesn’t exist. Please start discussions and make pull requests if you’d like to get involved.</p>
+        <p>You can find the code for the Mac, Windows, Linux graphical app and the Docker container here: <a href="https://github.com/freedomofpress/dangerzone" target="_blank" class="url" rel="noopener noreferrer">https://github.com/freedomofpress/dangerzone</a></p>
         <p><i>Dangerzone is released under the MIT license. It was developed by Micah Lee at First Look Media and is now a project of <a href="https://freedom.press/">Freedom of the Press Foundation.</a></i></p>
       </div>
     </div>

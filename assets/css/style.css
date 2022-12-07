@@ -91,6 +91,11 @@ a {
     padding: 3rem;
 }
 
+.youtube-embed {
+    width: 100%;
+    min-height: 340px;
+    max-width: 600px;
+}
 
 
 /*HEADER*/

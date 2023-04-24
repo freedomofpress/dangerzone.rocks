@@ -172,7 +172,7 @@ header ul li {
 .osPrimary {
     width: 50%;
     float: left;
-    padding: 3rem 3rem 4rem 3rem;
+    padding: 3rem 3rem 2rem 3rem;
     border-bottom: 1px solid rgba(0, 0, 0, 0.1);
 }
 
@@ -406,4 +406,10 @@ footer .onion img {
     .osSecondary {
         padding: 2rem;
     }
+}
+
+.cpu-arch-info {
+    padding-top: 0.5rem;
+    color: grey;
+    font-size: small;
 }

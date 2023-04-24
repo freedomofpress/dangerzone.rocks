@@ -329,7 +329,8 @@ footer {
     padding: 1rem;
     border-top: 1px solid rgba(0, 0, 0, 0.1);
     background-color: #592a00;
-    color: #ffffff
+    color: #ffffff;
+    display: flex;
 }
 
 footer p {

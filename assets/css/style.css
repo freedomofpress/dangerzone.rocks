@@ -218,17 +218,17 @@ header ul li {
 /*SCREENSHOTS*/
 .screenshots {
     display: flex;
+    flex-wrap: wrap;
 }
 
-.screenshots img{
-    flex: 50%;
+.screenshots .adjacent {
+    width: 50%;
     padding: 5px;
-    width: 100%;
 }
 
-@media screen and (max-width: 800px) {
-    .screenshots {
-        display: block;
+@media screen and (max-width: 960px) {
+    .screenshots .adjacent {
+        width: 100%;
     }
 }
 

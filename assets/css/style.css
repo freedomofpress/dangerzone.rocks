@@ -86,7 +86,7 @@ a {
 }
 
 .wrapper {
-    width: 960px;
+    max-width: 1280px;
     margin: 0 auto;
     padding: 3rem;
 }
@@ -169,17 +169,25 @@ header ul li {
     margin-bottom: 2rem;
 }
 
+.os-download-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
 .osPrimary {
     width: 50%;
-    float: left;
-    padding: 3rem 3rem 2rem 3rem;
+    min-width: 360px;
     border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+    padding-top: 3rem;
+    padding-bottom: 2rem;
 }
 
 .osSecondary {
-    width: 33.3%;
-    float: left;
-    padding: 3rem 3rem 0 3rem;
+    width: 25%;
+    min-width: 250px;
+    padding-top: 3rem;
+    padding-bottom: 2rem;
 }
 
 #downloads p {
@@ -273,6 +281,7 @@ header ul li {
 
 #features.wrapper {
     width: auto;
+    max-width: none;
 }
 
 #features .feature .title {

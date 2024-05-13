@@ -5,5 +5,5 @@ COPY deploy/nginx.conf /etc/nginx
 RUN mkdir -p /opt/nginx/run /opt/nginx/webroot/assets && chown -R nginx:nginx /opt/nginx
 
 USER nginx
-COPY --chown=nginx:nginx index.html about.html checksums.txt favicon.ico /opt/nginx/webroot/
+COPY --chown=nginx:nginx index.html about.html favicon.ico /opt/nginx/webroot/
 COPY --chown=nginx:nginx assets/ /opt/nginx/webroot/assets/

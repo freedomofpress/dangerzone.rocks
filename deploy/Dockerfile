@@ -15,3 +15,4 @@ RUN mkdir -p /opt/nginx/run /opt/nginx/webroot/assets && chown -R nginx:nginx /o
 
 USER nginx
 COPY --from=eleventy-build --chown=nginx:nginx /usr/src/page/dist /opt/nginx/webroot/
+EXPOSE 5080

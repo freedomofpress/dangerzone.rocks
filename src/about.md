@@ -23,8 +23,6 @@ You can think of it like printing a document and then rescanning it to remove an
 
 **[Download Dangerzone for Windows, macOS or Linux](/#downloads)** to get started.
 
-  
-
 How can a document be dangerous?
 --------------------------------
 
@@ -46,7 +44,7 @@ If you got this email today and opened New EViD User Guides.docm using Dangerzon
 Inspired by Qubes TrustedPDF
 ----------------------------
 
-I got the idea for Dangerzone from Qubes, an operating system that runs everything in virtual machines. In Qubes, you can right-click on a PDF and choose “Convert to TrustedPDF”. I [gave a talk](https://www.youtube.com/watch?v=f4U8YbXKwog) called Qubes OS: The Operating System That Can Protect You Even If You Get Hacked in 2018 at the Circle of HOPE hacker conference in New York. I talk about how TrustedPDF works for about 2 minutes starting at 9:20:
+I got the idea for Dangerzone from Qubes, an operating system that runs everything in virtual machines. In Qubes, you can right-click on a PDF and choose “Convert to TrustedPDF”. I [gave a talk](https://www.youtube.com/watch?v=f4U8YbXKwog) called Qubes OS: The Operating System That Can Protect You Even If You Get Hacked in 2018 at the Circle of HOPE hacker conference in New York. I talk about how TrustedPDF works for about 2 minutes [starting at 9:20](https://youtu.be/f4U8YbXKwog?t=560).
 
 Dangerzone was inspired by TrustedPDF but it works in non-Qubes operating systems, which is important, because most of the journalists I know use Macs and probably won’t be jumping to Qubes for some time.
 
@@ -61,46 +59,49 @@ When Dangerzone starts containers, it _disables networking_, and the only file i
 
 Here’s how it works. The first container:
 
-*   _Mounts a volume with the original document_
-*   Uses _LibreOffice_ or _GraphicsMagick_ to convert original document to a PDF
-*   Uses _poppler_ to split PDF into individual pages, and to convert those to PNGs
-*   Uses _GraphicsMagick_ to convert PNG pages to RGB pixel data
-*   _Stores RGB pixel data in separate volume_
+* _Mounts a volume with the original document_
+* Uses _LibreOffice_ or _GraphicsMagick_ to convert original document to a PDF
+* Uses _poppler_ to split PDF into individual pages, and to convert those to PNGs
+* Uses _GraphicsMagick_ to convert PNG pages to RGB pixel data
+* _Stores RGB pixel data in separate volume_
 
 Then that container quits. A second container starts and:
 
-*   _Mounts a volume with the RGB pixel data_
-*   If OCR is enabled, uses _GraphicsMagick_ to convert RGB pixel data into PNGs, and _Tesseract_ to convert PNGs into searchable PDFs
-*   Otherwise uses _GraphicsMagick_ to convert RGB pixel data into flat PDFs
-*   Uses _poppler_ to merge PDF pages into a single multipage PDF
-*   Uses _ghostscript_ to compress final save PDF
-*   _Stores safe PDF in separate volume_
+* _Mounts a volume with the RGB pixel data_
+* If OCR is enabled, uses _GraphicsMagick_ to convert RGB pixel data into PNGs, and _Tesseract_ to convert PNGs into searchable PDFs
+* Otherwise uses _GraphicsMagick_ to convert RGB pixel data into flat PDFs
+* Uses _poppler_ to merge PDF pages into a single multipage PDF
+* Uses _ghostscript_ to compress final save PDF
+* _Stores safe PDF in separate volume_
 
 Then that container quits, and the user can open the newly created safe PDF.
 
 Here are types of documents that Dangerzone can convert into safe PDFs:
 
-*   PDF (.pdf)
-*   Microsoft Word (.docx, .doc)
-*   Microsoft Excel (.xlsx, .xls)
-*   Microsoft PowerPoint (.pptx, .ppt)
-*   ODF Text (.odt)
-*   ODF Spreadsheet (.ods)
-*   ODF Presentation (.odp)
-*   ODF Graphics (.odg)
-*   Jpeg (.jpg, .jpeg)
-*   GIF (.gif)
-*   PNG (.png)
-*   TIFF (.tif, .tiff)
+* PDF (.pdf)
+* Microsoft Word (.docx, .doc)
+* Microsoft Excel (.xlsx, .xls)
+* Microsoft PowerPoint (.pptx, .ppt)
+* ODF Text (.odt)
+* ODF Spreadsheet (.ods)
+* ODF Presentation (.odp)
+* ODF Graphics (.odg)
+* EPUB (.epub)
+* Jpeg (.jpg, .jpeg)
+* GIF (.gif)
+* PNG (.png)
+* SVG (.svg)
+* TIFF (.tif, .tiff)
+* Other image formats (.bmp, .pnm, .pbm, ppm)
 
 It’s still possible to get hacked with Dangerzone
 -------------------------------------------------
 
 Like all software, it’s possible that Dangerzone (and more importantly, the software that it relies on like LibreOffice and Docker) has security bugs. Malicious documents are designed to target a specific piece of software – for example, Adobe Reader on Mac. It’s possible that someone could craft a malicious document that specifically targets Dangerzone itself. An attacker would need to chain these exploits together to succeed at hacking Dangerzone:
 
-*   An exploit for either LibreOffice or GraphicsMagic
-*   A container escape exploit in the Linux kernel
-*   In Mac and Windows, a VM escape exploit for Docker Desktop
+* An exploit for either LibreOffice or GraphicsMagic
+* A container escape exploit in the Linux kernel
+* In Mac and Windows, a VM escape exploit for Docker Desktop
 
 If you opened such a malicious document with Dangerzone, it would start the first container and begin the conversion process. While it was converting the original document (say, a docx file) into a PDF using LibreOffice, it would exploit a vulnerability in LibreOffice to hack the container. Then, it would exploit a vulnerability in the Linux kernel to escape the container, and from there attempt to take over the computer.
 
@@ -115,7 +116,7 @@ This tool is still in early development, so there may be bugs. If you find any, 
 
 You can find the code for the Mac, Windows, Linux graphical app and the Docker container here: [https://github.com/freedomofpress/dangerzone](https://github.com/freedomofpress/dangerzone)
 
-_Dangerzone is released under the MIT license. It was developed by Micah Lee at First Look Media and is now a project of [Freedom of the Press Foundation.](https://freedom.press/)_
+_Dangerzone is released under the [AGPLv3 license](https://www.gnu.org/licenses/agpl-3.0.en.html). It was developed by Micah Lee at First Look Media and is now a project of [Freedom of the Press Foundation](https://freedom.press/)._
 
 </div>
 </div>

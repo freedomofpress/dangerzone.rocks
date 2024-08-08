@@ -299,7 +299,7 @@ header ul li {
   margin-bottom:1.5rem;
 }
 
-.article b {
+.article b, .article strong {
   font-weight: bold;
 }
 .article i, .article em {

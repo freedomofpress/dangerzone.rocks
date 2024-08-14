@@ -1,0 +1,11 @@
+---
+layout: base
+---
+
+<article>
+  <div class="wrapper article">
+    <h1>{{ title }}</h1>
+    <div class="post-time"><time datetime="{{ date | dateIso }}">{{ date | dateReadable }}</time></div>
+    {{ content | safe }}
+  </div>
+</article>

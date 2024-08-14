@@ -423,3 +423,19 @@ footer .onion img {
     color: grey;
     font-size: small;
 }
+
+/* Restore numbering for ordered lists */
+ol {
+    list-style-type: decimal;
+    margin-left: 1.5em;
+    padding-left: 1.5em;
+}
+
+.post-time {
+    font-weight: bold;
+    margin-bottom: 1.5em;
+}
+
+.post-title {
+    text-align: left;
+}

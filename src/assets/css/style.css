@@ -26,6 +26,15 @@ html {
     /*narrowest iPhone width*/
 }
 
+body {
+    background-color: #592a00;
+}
+
+main {
+
+    background-color: white;
+}
+
 h1 {
     font-size: 4rem;
     line-height: 5.25rem;
@@ -337,7 +346,6 @@ footer {
     font-size: .75rem;
     padding: 1rem;
     border-top: 1px solid rgba(0, 0, 0, 0.1);
-    background-color: #592a00;
     color: #ffffff;
     display: flex;
 }
@@ -438,4 +446,22 @@ ol {
 
 .post-title {
     text-align: left;
+}
+
+.rss-link {
+    display: inline-flex;
+    align-items: center;
+    margin-left: 10px;
+    vertical-align: middle;
+}
+
+.rss-link svg {
+    width: 20px;
+    height: 20px;
+    color: #f26522; /* Standard RSS orange color */
+    transition: color 0.3s ease;
+}
+
+.rss-link:hover svg {
+    color: #e34e0d; /* Slightly darker orange on hover */
 }

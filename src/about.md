@@ -55,23 +55,20 @@ How does Dangerzone work?
 
 Dangerzone uses Linux containers (two of them), which are sort of like quick, lightweight virtual machines that share the Linux kernel with their host. The easiest way to get containers running on Mac and Windows is by using [Docker Desktop](https://www.docker.com/products/docker-desktop). So when you first install Dangerzone, if you don’t already have Docker Desktop installed, it helps you download and install it.
 
-When Dangerzone starts containers, it _disables networking_, and the only file it mounts is the suspicious document itself. So if a malicious document hacks the container, it doesn’t have access to your data and it can’t use the internet, so there’s not much it could do.
+When Dangerzone starts the container that will sanitize the suspicious document, it _disables networking_ and does not mount anything. So if a malicious document hacks the container, it doesn’t have access to your data and it can’t use the internet, so there’s not much it could do.
 
 Here’s how it works. The first container:
 
-* _Mounts a volume with the original document_
-* Uses _LibreOffice_ or _GraphicsMagick_ to convert original document to a PDF
-* Uses _poppler_ to split PDF into individual pages, and to convert those to PNGs
-* Uses _GraphicsMagick_ to convert PNG pages to RGB pixel data
-* _Stores RGB pixel data in separate volume_
+* _Reads the original document from standard input_
+* Uses _LibreOffice_ or _PyMuPDF_ to convert original document to a PDF
+* Uses _PyMuPDF_ to split PDF into individual pages, and to convert those into RGB pixel data
+* _Writes the number of pages and the RGB pixel data to its standard output_
 
-Then that container quits. A second container starts and:
+Then that container quits. The host then writes the RGB pixel data to a volume. A second container starts and:
 
 * _Mounts a volume with the RGB pixel data_
-* If OCR is enabled, uses _GraphicsMagick_ to convert RGB pixel data into PNGs, and _Tesseract_ to convert PNGs into searchable PDFs
-* Otherwise uses _GraphicsMagick_ to convert RGB pixel data into flat PDFs
-* Uses _poppler_ to merge PDF pages into a single multipage PDF
-* Uses _ghostscript_ to compress final save PDF
+* If OCR is enabled, uses _PyMuPDF_ to convert RGB pixel data into a compressed, **searchable** PDF
+* Otherwise uses _PyMuPDF_ to convert RGB pixel data into a compressed, **flat** PDF
 * _Stores safe PDF in separate volume_
 
 Then that container quits, and the user can open the newly created safe PDF.
@@ -99,7 +96,7 @@ It’s still possible to get hacked with Dangerzone
 
 Like all software, it’s possible that Dangerzone (and more importantly, the software that it relies on like LibreOffice and Docker) has security bugs. Malicious documents are designed to target a specific piece of software – for example, Adobe Reader on Mac. It’s possible that someone could craft a malicious document that specifically targets Dangerzone itself. An attacker would need to chain these exploits together to succeed at hacking Dangerzone:
 
-* An exploit for either LibreOffice or GraphicsMagic
+* An exploit for either LibreOffice or PyMuPDF
 * A container escape exploit in the Linux kernel
 * In Mac and Windows, a VM escape exploit for Docker Desktop
 

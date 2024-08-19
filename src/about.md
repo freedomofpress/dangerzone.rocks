@@ -48,30 +48,30 @@ I got the idea for Dangerzone from Qubes, an operating system that runs everythi
 
 Dangerzone was inspired by TrustedPDF but it works in non-Qubes operating systems, which is important, because most of the journalists I know use Macs and probably won’t be jumping to Qubes for some time.
 
-It uses Linux containers to sandbox dangerous documents instead of virtual machines. And it also adds some features that TrustedPDF doesn’t have: it works with any office documents, not just PDFs; it uses optical character recognition (OCR) to make the safe PDF have a searchable text layer; and it compresses the final safe PDF.
+It uses [gVisor](https://gvisor.dev/) sandboxes running in Linux containers to sandbox dangerous documents. And it also adds some features that TrustedPDF doesn’t have: it works with any office documents, not just PDFs; it uses optical character recognition (OCR) to make the safe PDF have a searchable text layer; and it compresses the final safe PDF.
 
 How does Dangerzone work?
 -------------------------
 
-Dangerzone uses Linux containers (two of them), which are sort of like quick, lightweight virtual machines that share the Linux kernel with their host. The easiest way to get containers running on Mac and Windows is by using [Docker Desktop](https://www.docker.com/products/docker-desktop). So when you first install Dangerzone, if you don’t already have Docker Desktop installed, it helps you download and install it.
+Dangerzone uses Linux containers (two of them), and runs a sandbox inside each. The easiest way to get containers running on Mac and Windows is by using [Docker Desktop](https://www.docker.com/products/docker-desktop). So when you first install Dangerzone, if you don’t already have Docker Desktop installed, it helps you download and install it.
 
-When Dangerzone starts the container that will sanitize the suspicious document, it _disables networking_ and does not mount anything. So if a malicious document hacks the container, it doesn’t have access to your data and it can’t use the internet, so there’s not much it could do.
+When Dangerzone starts a container, it will first start a gVisor sandbox _inside_ that container, then runs the potentially-dangerous document processing workload inside the sandbox. This ensures that the process dealing with the document is isolated from the Linux kernel. The sandbox and its parent container are also both configured to _disable networking_ and to not mount anything from the host filesystem. So if a malicious document manages to execute arbitrary code, this code doesn’t have access to the host kernel, doesn't have access to your data, and can't use the internet, so there’s not much it could do.
 
-Here’s how it works. The first container:
+Here’s how it works. The first sandbox:
 
 * _Reads the original document from standard input_
 * Uses _LibreOffice_ or _PyMuPDF_ to convert original document to a PDF
 * Uses _PyMuPDF_ to split PDF into individual pages, and to convert those into RGB pixel data
 * _Writes the number of pages and the RGB pixel data to its standard output_
 
-Then that container quits. The host then writes the RGB pixel data to a volume. A second container starts and:
+Then that sandbox quits. The host then writes the RGB pixel data to a volume. A second sandbox starts and:
 
 * _Mounts a volume with the RGB pixel data_
 * If OCR is enabled, uses _PyMuPDF_ to convert RGB pixel data into a compressed, **searchable** PDF
 * Otherwise uses _PyMuPDF_ to convert RGB pixel data into a compressed, **flat** PDF
 * _Stores safe PDF in separate volume_
 
-Then that container quits, and the user can open the newly created safe PDF.
+Then that sandbox quits, and the user can open the newly created safe PDF.
 
 Here are types of documents that Dangerzone can convert into safe PDFs:
 
@@ -97,12 +97,13 @@ It’s still possible to get hacked with Dangerzone
 Like all software, it’s possible that Dangerzone (and more importantly, the software that it relies on like LibreOffice and Docker) has security bugs. Malicious documents are designed to target a specific piece of software – for example, Adobe Reader on Mac. It’s possible that someone could craft a malicious document that specifically targets Dangerzone itself. An attacker would need to chain these exploits together to succeed at hacking Dangerzone:
 
 * An exploit for either LibreOffice or PyMuPDF
-* A container escape exploit in the Linux kernel
+* A sandbox escape exploit in the gVisor kernel
+* A container escape exploit in the Linux kernel that isn't protected by gVisor's syscall filters
 * In Mac and Windows, a VM escape exploit for Docker Desktop
 
-If you opened such a malicious document with Dangerzone, it would start the first container and begin the conversion process. While it was converting the original document (say, a docx file) into a PDF using LibreOffice, it would exploit a vulnerability in LibreOffice to hack the container. Then, it would exploit a vulnerability in the Linux kernel to escape the container, and from there attempt to take over the computer.
+If you opened such a malicious document with Dangerzone, it would start the first sandbox and begin the conversion process. While it was converting the original document (say, a docx file) into a PDF using LibreOffice, it would exploit a vulnerability in LibreOffice to achieve code execution. Then, it would exploit a vulnerability in the gVisor kernel to escape the sandbox, then it would exploit a vulnerability in the Linux kernel to escape the container, and from there attempt to take over the computer.
 
-If you keep Docker Desktop updated and regularly update the container that Dangerzone uses, such attacks will be much more expensive for attackers.
+If you keep Docker Desktop and Dangerzone updated regularly, such attacks will be much more expensive for attackers.
 
 Another way a malicious document may harm your system, even with Dangerzone, is if it is crafted to attack the document previewing capabilities of the operating system itself (e.g. the part that generates file thumbnails or document previews in a side-panel of the file manager). Due to the high level of integration of these features in the operating system, disabling them completely may be challenging. For this reason, keeping your system always up to date is the most practical solution to minimize this risk.
 
@@ -119,7 +120,7 @@ Dangerzone is open source
 
 This tool is still in early development, so there may be bugs. If you find any, please check the [issues on GitHub](https://github.com/freedomofpress/dangerzone/issues) and open one if your issue doesn’t exist. Please start discussions and make pull requests if you’d like to get involved.
 
-You can find the code for the Mac, Windows, Linux graphical app and the Docker container here: [https://github.com/freedomofpress/dangerzone](https://github.com/freedomofpress/dangerzone)
+You can find the code for the Mac, Windows, Linux graphical app and the document conversion process here: [https://github.com/freedomofpress/dangerzone](https://github.com/freedomofpress/dangerzone)
 
 _Dangerzone is released under the [AGPLv3 license](https://www.gnu.org/licenses/agpl-3.0.en.html). It was developed by Micah Lee at First Look Media and is now a project of [Freedom of the Press Foundation](https://freedom.press/)._
 

@@ -111,8 +111,8 @@ While we are doing our best to inform journalists about these risks and keep the
 What others have written about Dangerzone
 -----------------------------------------
 
-* [GIJN Toolbox: Cutting-Edge — and Free — Online Investigative Tools You Can Try Right Now](https://gijn.org/stories/cutting-edge-free-online-investigative-tools/)
-* [When security matters: working with Qubes OS at the Guardian](https://www.theguardian.com/info/2024/apr/04/when-security-matters-working-with-qubes-os-at-the-guardian)
+* [When security matters: working with Qubes OS at the Guardian](https://www.theguardian.com/info/2024/apr/04/when-security-matters-working-with-qubes-os-at-the-guardian), _by The Guardian on April 4, 2024_
+* [GIJN Toolbox: Cutting-Edge — and Free — Online Investigative Tools You Can Try Right Now](https://gijn.org/stories/cutting-edge-free-online-investigative-tools/), _by GIJN on March 13, 2024_
 
 Dangerzone is open source
 -------------------------

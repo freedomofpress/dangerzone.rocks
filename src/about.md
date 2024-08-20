@@ -55,23 +55,20 @@ How does Dangerzone work?
 
 Dangerzone uses Linux containers (two of them), which are sort of like quick, lightweight virtual machines that share the Linux kernel with their host. The easiest way to get containers running on Mac and Windows is by using [Docker Desktop](https://www.docker.com/products/docker-desktop). So when you first install Dangerzone, if you don’t already have Docker Desktop installed, it helps you download and install it.
 
-When Dangerzone starts containers, it _disables networking_, and the only file it mounts is the suspicious document itself. So if a malicious document hacks the container, it doesn’t have access to your data and it can’t use the internet, so there’s not much it could do.
+When Dangerzone starts the container that will sanitize the suspicious document, it _disables networking_ and does not mount anything. So if a malicious document hacks the container, it doesn’t have access to your data and it can’t use the internet, so there’s not much it could do.
 
 Here’s how it works. The first container:
 
-* _Mounts a volume with the original document_
-* Uses _LibreOffice_ or _GraphicsMagick_ to convert original document to a PDF
-* Uses _poppler_ to split PDF into individual pages, and to convert those to PNGs
-* Uses _GraphicsMagick_ to convert PNG pages to RGB pixel data
-* _Stores RGB pixel data in separate volume_
+* _Reads the original document from standard input_
+* Uses _LibreOffice_ or _PyMuPDF_ to convert original document to a PDF
+* Uses _PyMuPDF_ to split PDF into individual pages, and to convert those into RGB pixel data
+* _Writes the number of pages and the RGB pixel data to its standard output_
 
-Then that container quits. A second container starts and:
+Then that container quits. The host then writes the RGB pixel data to a volume. A second container starts and:
 
 * _Mounts a volume with the RGB pixel data_
-* If OCR is enabled, uses _GraphicsMagick_ to convert RGB pixel data into PNGs, and _Tesseract_ to convert PNGs into searchable PDFs
-* Otherwise uses _GraphicsMagick_ to convert RGB pixel data into flat PDFs
-* Uses _poppler_ to merge PDF pages into a single multipage PDF
-* Uses _ghostscript_ to compress final save PDF
+* If OCR is enabled, uses _PyMuPDF_ to convert RGB pixel data into a compressed, **searchable** PDF
+* Otherwise uses _PyMuPDF_ to convert RGB pixel data into a compressed, **flat** PDF
 * _Stores safe PDF in separate volume_
 
 Then that container quits, and the user can open the newly created safe PDF.
@@ -99,7 +96,7 @@ It’s still possible to get hacked with Dangerzone
 
 Like all software, it’s possible that Dangerzone (and more importantly, the software that it relies on like LibreOffice and Docker) has security bugs. Malicious documents are designed to target a specific piece of software – for example, Adobe Reader on Mac. It’s possible that someone could craft a malicious document that specifically targets Dangerzone itself. An attacker would need to chain these exploits together to succeed at hacking Dangerzone:
 
-* An exploit for either LibreOffice or GraphicsMagic
+* An exploit for either LibreOffice or PyMuPDF
 * A container escape exploit in the Linux kernel
 * In Mac and Windows, a VM escape exploit for Docker Desktop
 
@@ -108,6 +105,14 @@ If you opened such a malicious document with Dangerzone, it would start the firs
 If you keep Docker Desktop updated and regularly update the container that Dangerzone uses, such attacks will be much more expensive for attackers.
 
 Another way a malicious document may harm your system, even with Dangerzone, is if it is crafted to attack the document previewing capabilities of the operating system itself (e.g. the part that generates file thumbnails or document previews in a side-panel of the file manager). Due to the high level of integration of these features in the operating system, disabling them completely may be challenging. For this reason, keeping your system always up to date is the most practical solution to minimize this risk.
+
+While we are doing our best to inform journalists about these risks and keep them as safe as possible, we believe it's important for third parties to independently assess our assumptions. For this reason, Dangerzone underwent its [first security audit](https://freedom.press/news/dangerzone-receives-favorable-audit)</a> on December 2023 by [Include Security](https://includesecurity.com/) with support from the [Open Technology Fund](https://www.opentech.fund/). The audit was generally favorable, as it didn't identify any high-risk findings (it identified 3 low-risk and 7 informational findings).
+
+What others have written about Dangerzone
+-----------------------------------------
+
+* [When security matters: working with Qubes OS at the Guardian](https://www.theguardian.com/info/2024/apr/04/when-security-matters-working-with-qubes-os-at-the-guardian), _by The Guardian on April 4, 2024_
+* [GIJN Toolbox: Cutting-Edge — and Free — Online Investigative Tools You Can Try Right Now](https://gijn.org/stories/cutting-edge-free-online-investigative-tools/), _by GIJN on March 13, 2024_
 
 Dangerzone is open source
 -------------------------

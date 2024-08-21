@@ -20,32 +20,37 @@
   <meta property="og:url" content="https://dangerzone.rocks">
   <meta property="og:description"
     content="Take potentially dangerous PDFs, office documents, or images and convert them to a safe PDF.">
+  <link rel="alternate" type="application/rss+xml" title="Dangerzone news feed" href="/feed.xml" />
 </head>
 
 <body>
-  <header {% if page.url == '/' %}class="index-header"{% endif %}>
-    <nav class="clearfix">
-      <ul>
-        {# TODO:  We should have more sophisticated nav handling than this #}
-        {% if page.url == '/' %}
-          <li>Main Page</li>
-        {% else %}
-          <li><a href="/">Main Page</a></li>
-        {% endif %}
+<header{% if page.url == '/' %} class="index-header"{% endif %}>
+  <nav class="clearfix">
+    <ul>
+      {% set navItems = [
+        {url: '/', title: 'Main Page'},
+        {url: '/about/', title: 'About'},
+        {url: '/news/', title: 'News'},
+        {url: 'https://github.com/freedomofpress/dangerzone/issues', title: 'Report an Issue', external: true},
+        {url: 'https://github.com/freedomofpress/dangerzone', title: 'Code', external: true},
+        {url: 'https://fosstodon.org/@dangerzone', title: 'Mastodon', external: true, relMe: true}
+      ] %}
 
-        {% if page.url == '/about/' %}
-          <li>About</li>
-        {% else %}
-          <li><a href="/about/">About</a></li>
-        {% endif %}
-        
-        <li><a href="https://github.com/freedomofpress/dangerzone/issues?state=open" target="_blank">Report an Issue</a>
+      {% for item in navItems %}
+        <li>
+          {% if page.url == item.url %}
+            {{ item.title }}
+          {% else %}
+            <a href="{{ item.url }}"
+               {% if item.external %}target="_blank"{% endif %}
+               {% if item.relMe %}rel="me"{% endif %}
+            >{{ item.title }}</a>
+          {% endif %}
         </li>
-        <li><a href="https://github.com/freedomofpress/dangerzone" target="_blank">Code</a></li>
-        <li><a href="https://fosstodon.org/@dangerzone" target="_blank" rel="me">Follow on Mastodon</a></li>
-      </ul>
-    </nav>
-  </header>
+      {% endfor %}
+    </ul>
+  </nav>
+</header>
   <main>
   {{ content | safe | indent(4)}}
   </main>

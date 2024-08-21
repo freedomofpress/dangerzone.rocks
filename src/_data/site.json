@@ -1,0 +1,9 @@
+{
+    "title": "Dangerzone",
+    "description": "The Dangerzone application takes potentially dangerous documents and converts them to safe PDF files",
+    "url": "https://dangerzone.rocks/",
+    "author": {
+      "name": "Dangerzone development team",
+      "email": "info@freedom.press"
+    }
+}

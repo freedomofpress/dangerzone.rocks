@@ -109,20 +109,17 @@ a {
 
 /*HEADER*/
 
-header {
-    padding: 1.5rem 1rem;
-    position: absolute;
-    right: 0;
-}
 
 header nav {
     float: right;
     font-size: .75rem;
+    padding:1.5rem;
 }
+
 
 header ul li {
     display: inline;
-    margin: 0 0 0 .5rem;
+    margin: 0 0.5rem 0 0;
 }
 
 .index-header, .index-header a {

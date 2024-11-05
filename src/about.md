@@ -6,7 +6,7 @@ layout: article.njk
 About Dangerzone
 ================
 
-**By Micah Lee**
+**Original by Micah Lee, with additions from Dangerzone contributors**
 
 Have you ever heard the computer security advice, “Don’t open attachments”? This is solid advice, but unfortunately for journalists, activists, and many other people, it’s impossible to follow. Imagine if you were a journalist and got an email from someone claiming to work for the Trump Organization with “Donald Trump tax returns.pdf” attached. Are you really going to reply saying, “Sorry, I don’t open attachments” and leave it at that?
 

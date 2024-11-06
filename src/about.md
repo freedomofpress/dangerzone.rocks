@@ -6,7 +6,7 @@ layout: article.njk
 About Dangerzone
 ================
 
-**By Micah Lee**
+**Original by Micah Lee, with additions from Dangerzone contributors**
 
 Have you ever heard the computer security advice, “Don’t open attachments”? This is solid advice, but unfortunately for journalists, activists, and many other people, it’s impossible to follow. Imagine if you were a journalist and got an email from someone claiming to work for the Trump Organization with “Donald Trump tax returns.pdf” attached. Are you really going to reply saying, “Sorry, I don’t open attachments” and leave it at that?
 
@@ -53,7 +53,7 @@ It uses [gVisor](https://gvisor.dev/) sandboxes running in Linux containers to o
 How does Dangerzone work?
 -------------------------
 
-Dangerzone uses Linux containers (two of them), which are isolated application environments that share the Linux kernel with their host. The easiest way to get containers running on Mac and Windows is by using [Docker Desktop](https://www.docker.com/products/docker-desktop). So when you first install Dangerzone, if you don’t already have Docker Desktop installed, it helps you download and install it.
+Dangerzone uses Linux containers, which are isolated application environments that share the Linux kernel with their host. The easiest way to get containers running on Mac and Windows is by using [Docker Desktop](https://www.docker.com/products/docker-desktop). So when you first install Dangerzone, if you don’t already have Docker Desktop installed, it helps you download and install it.
 
 When Dangerzone starts the container that will sanitize the suspicious document, it will first start a gVisor sandbox _inside_ that container, then run the potentially-dangerous document processing workload inside the sandbox. This ensures that the process dealing with the document is isolated from the Linux kernel. The sandbox and its parent container are also both configured to _disable networking_ and to not mount anything from the host filesystem. So if a malicious document manages to execute arbitrary code, this code doesn’t have access to the host kernel, doesn't have access to your data, and can't use the internet, so there’s not much it could do.
 
@@ -64,14 +64,13 @@ Here’s how it works. First, the sandbox:
 * Uses _PyMuPDF_ to split PDF into individual pages, and to convert those into RGB pixel data
 * _Writes the number of pages and the RGB pixel data to its standard output_
 
-Then that sandbox quits. The host then writes the RGB pixel data to a volume. A second container starts and:
+Then that sandbox quits. The host reads the RGB pixel data from the container's standard output and:
 
-* _Mounts a volume with the RGB pixel data_
 * If OCR is enabled, uses _PyMuPDF_ to convert RGB pixel data into a compressed, **searchable** PDF
 * Otherwise uses _PyMuPDF_ to convert RGB pixel data into a compressed, **flat** PDF
-* _Stores safe PDF in separate volume_
+* _Stores the safe PDF in the specified directory with the `-safe.pdf` suffix, and archives the original one_
 
-Then that container quits, and the user can open the newly created safe PDF.
+The user can then open the newly created safe PDF.
 
 Here are types of documents that Dangerzone can convert into safe PDFs:
 

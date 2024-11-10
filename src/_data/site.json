@@ -1,9 +1,11 @@
 {
-    "title": "Dangerzone",
-    "description": "The Dangerzone application takes potentially dangerous documents and converts them to safe PDF files",
-    "url": "https://dangerzone.rocks/",
-    "author": {
-      "name": "Dangerzone development team",
-      "email": "info@freedom.press"
-    }
+  "title": "Dangerzone",
+  "description": "The Dangerzone application takes potentially dangerous documents and converts them to safe PDF files",
+  "url": "https://dangerzone.rocks/",
+  "author": {
+    "name": "Dangerzone development team",
+    "email": "info@freedom.press"
+  },
+  "github_repo": "https://github.com/freedomofpress/dangerzone",
+  "version": "0.8.0"
 }

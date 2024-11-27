@@ -8,4 +8,7 @@ layout: base
     <div class="post-time"><time datetime="{{ date | dateIso }}">{{ date | dateReadable }}</time></div>
     {{ content | safe }}
   </div>
+{% if version %}
+  {% include "../_includes/downloads.njk" %}
+{% endif %}
 </article>

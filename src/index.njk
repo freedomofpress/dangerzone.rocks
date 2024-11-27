@@ -37,8 +37,10 @@ layout: base.njk
   </div>
 </section>
 
-{% set version = site.version %}
-{% include "./_includes/downloads.njk" %}
+{% set version = collections.posts | getLatestVersion %}
+{% if version %}
+  {% include "./_includes/downloads.njk" %}
+{% endif %}
 
 <section class="wrapper" id="news">
   <h2>How It Works</h2>

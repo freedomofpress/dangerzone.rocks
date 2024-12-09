@@ -6,6 +6,13 @@ layout: base
   <div class="wrapper article">
     <h1>{{ title }}</h1>
     <div class="post-time"><time datetime="{{ date | dateIso }}">{{ date | dateReadable }}</time></div>
+    {% set latest = collections.posts | getLatestVersion %}
+    {% if version and latest > version %}
+    <p class="info">You're currently reading the release announcement for version {{ version }}, but <a href="/#downloads">a newer version ({{ latest }})</a> is now available.</p>
+    {% endif %}
     {{ content | safe }}
   </div>
+{% if version %}
+  {% include "../_includes/downloads.njk" %}
+{% endif %}
 </article>

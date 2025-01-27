@@ -535,6 +535,10 @@ pre code {
   background: none;
 }
 
+figure img.mid {
+  width: 50%;
+}
+
 figure img {
   width: 100%;
   max-width: 800px;

@@ -1,0 +1,73 @@
+{
+    "version": "v1.0.0",
+    "entity": {
+      "type": "organisation",
+      "role": "steward",
+      "name": "Freedom of the Press Foundation",
+      "email": "giving@freedom.press",
+      "phone": "",
+      "description": "Freedom of the Press Foundation (FPF) is a 501(c)(3) non-profit organization dedicated to protecting and defending public interest journalism. FPF builds and maintains open-source security tools that help journalists and whistleblowers communicate securely, provides digital security training to media professionals, documents press freedom violations, and engages in advocacy for the protection of journalists' rights.\n\nDangerzone is an open-source tool that empowers journalists, activists, and others to safely open potentially malicious documents without putting their devices at risk. Dangerzone converts PDFs, Microsoft Office files, and images into secure, sanitized PDFs using isolated Linux containers. This ensures that even if a document contains hidden threats – such as embedded tracking mechanisms, malicious scripts, or exploits targeting software vulnerabilities – it is neutralized before being opened. Support from FLOSS would allow FPF to sustain and improve Dangerzone, ensuring it remains a reliable tool in an evolving digital landscape where secure document handling is critical for press freedom and public-interest reporting.",
+      "webpageUrl": {
+        "url": "https://dangerzone.rocks/"
+      }
+    },
+    "projects": [
+      {
+        "guid": "dangerzone",
+        "name": "Dangerzone",
+        "description": "Over the past 12 years, FPF has been a leading organization in the United States that advocates for journalists’ rights and empowers them by teaching them how to use digital security tools to protect their sources. FPF is the only major non-profit in the United States that has a team of engineers and digital security trainers specifically focused on building tools for the journalism community and teaching them how to protect their sources online. Through a combination of advocacy, training and technology, we vigorously protect the rights of journalists and whistleblowers from government overreach and alert the public to escalating press freedom threats.\n\nDangerzone converts PDFs, Microsoft Office files, and images into safe, sanitized PDFs using isolated Linux containers. This neutralizes hidden threats such as embedded tracking beacons, malicious macros, and exploits targeting document viewers.\n\nDangerzone is available as a standalone tool, but it also plays a key role in the SecureDrop Workstation, where it helps protect journalists handling sensitive submissions from unknown sources. By supporting Dangerzone, you’re helping to strengthen the security of investigative journalism and public-interest reporting, ensuring that journalists can review documents safely without fear of surveillance or compromise. As threats to press freedom continue to evolve, ongoing development and maintenance of Dangerzone will be essential to keeping journalists and their sources secure.",
+        "webpageUrl": {
+          "url": "https://dangerzone.rocks/"
+        },
+        "repositoryUrl": {
+          "url": "https://github.com/freedomofpress/dangerzone",
+          "wellKnown": "https://github.com/freedomofpress/dangerzone/blob/develop/.well-known/funding-manifest-urls"
+        },
+        "licenses": [
+          "spdx:AGPL-3.0-or-later"
+        ],
+        "tags": [
+          "whistleblower",
+          "anti-malware",
+          "journalism",
+          "security",
+          "privacy",
+          "open-source"
+        ]
+      }
+    ],
+    "funding": {
+      "channels": [
+        {
+          "guid": "website",
+          "type": "other",
+          "address": "https://freedom.press/donate/",
+          "description": "We accept donations through our site, through mailed checks, or via direct bank transfers. Please e-mail us at giving@freedom.press for details of where to send a wire."
+        }
+      ],
+      "plans": [
+        {
+          "guid": "dangerzone-support",
+          "status": "active",
+          "name": "Dangerzone Support",
+          "description": "Funds will support ongoing development of Dangerzone.",
+          "amount": 50000,
+          "currency": "USD",
+          "frequency": "yearly",
+          "channels": [
+            "website"
+          ]
+        }
+      ],
+      "history": [
+        {
+          "year": 2025,
+          "income": 0,
+          "expenses": 0,
+          "taxes": 0,
+          "currency": "USD",
+          "description": ""
+        }
+      ]
+    }
+  }

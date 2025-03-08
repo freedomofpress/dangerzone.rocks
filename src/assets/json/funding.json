@@ -21,7 +21,7 @@
         },
         "repositoryUrl": {
           "url": "https://github.com/freedomofpress/dangerzone",
-          "wellKnown": "https://github.com/freedomofpress/dangerzone/blob/develop/.well-known/funding-manifest-urls"
+          "wellKnown": "https://github.com/freedomofpress/dangerzone/blob/main/.well-known/funding-manifest-urls"
         },
         "licenses": [
           "spdx:AGPL-3.0-or-later"

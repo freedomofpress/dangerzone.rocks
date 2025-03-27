@@ -5,6 +5,20 @@
   transition: 0.1s;
 }
 
+:root {
+  --color-text: #fff;
+  --color-selection-background: #f97b25;
+  --color-selection-text: #fff;
+  --color-background: #592a00;
+  --color-button-text: var(--color-background);
+  --color-button-background: #fff;
+  --color-button-primary-text: var(--color-button-background);
+  --color-button-primary-background: var(--color-button-text);
+  --color-background-alternative: #fff;
+  --color-menu-text: #fff;
+  --color-headers: var(--color-background);
+}
+
 .clearfix:after {
   content: ".";
   display: block;
@@ -15,8 +29,8 @@
 }
 
 ::selection {
-  background-color: #f97b25;
-  color: #fff;
+  background-color: var(--color-selection-background);
+  color: var(--color-selection-text);
 }
 
 html {
@@ -26,11 +40,11 @@ html {
 }
 
 body {
-  background-color: #592a00;
+  background-color: var(--color-background);
 }
 
 main {
-  background-color: white;
+  background-color: var(--color-background-alternative);
 }
 
 h1 {
@@ -41,7 +55,7 @@ h1 {
 
 h2 {
   text-transform: uppercase;
-  color: #592a00;
+  color: var(--color-headers);
   font-size: 2.5rem;
   text-align: center;
   margin-bottom: 1.5rem;
@@ -61,29 +75,29 @@ a {
 .button {
   border: 1px solid rgba(0, 0, 0, 0.1);
   padding: 0.625rem 1rem;
-  color: #592a00;
+  color: var(--color-button-text);
   border-radius: 3px;
   font-size: 0.875rem;
   text-decoration: none;
-  background-color: #fff;
+  background-color: var(--color-button-background);
   display: inline-block;
 }
 
 .buttonPrimary {
   border: 3px solid #000;
   padding: 0.625rem 1rem;
-  background-color: #592a00;
+  background-color: var(--color-button-primary-background);
   border-radius: 3px;
   font-size: 1rem;
   font-weight: bold;
-  color: #ffffff;
+  color: var(--color-button-primary-text);
   text-decoration: none;
   margin: 0 0.5rem 0 0;
 }
 
 .buttonPrimary:hover {
-  background-color: #592a00;
-  color: #ffffff;
+  background-color: var(--color-button-primary-background);
+  color: var(--color-button-primary-text);
   box-shadow: 0 1px 4px rgba(0, 0, 0, 0.15);
 }
 
@@ -119,18 +133,18 @@ header ul li {
 
 .index-header,
 .index-header a {
-  color: #ffffff;
+  color: var(--color-menu-text);
 }
 
 /*INTRO*/
 
 #intro {
   text-align: center;
-  color: #ffffff;
+  color: var(--color-text);
   padding: 4.5rem 0 6rem 0;
   min-height: 100vh;
   /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#fcfcfc+0,f2f2f2+100 */
-  background: #592a00;
+  background: var(--color-background);
   /* Old browsers */
   background: -moz-linear-gradient(top, #592a00 0%, #f97b25 100%);
   /* FF3.6-15 */

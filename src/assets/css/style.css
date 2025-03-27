@@ -560,3 +560,9 @@ figure figcaption {
 strong {
   font-weight: bold;
 }
+
+.video-container video {
+  width: 100%;
+  height: auto;
+  display: block;
+}

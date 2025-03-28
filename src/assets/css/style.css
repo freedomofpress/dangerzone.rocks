@@ -561,7 +561,7 @@ strong {
   font-weight: bold;
 }
 
-.video-container video {
+video {
   width: 100%;
   height: auto;
   display: block;

@@ -2,7 +2,7 @@
 title: "Dangerzone for journalists"
 layout: article.njk
 ---
-## **Dangerzone for journalists**
+# Dangerzone for journalists
 
 As a journalist, it’s part of your job to open files from strangers.
 
@@ -27,12 +27,10 @@ It works with Word documents, photos, spreadsheets, e-books, and other files peo
 
 This approach neutralizes malware, hidden trackers, and metadata all at once.
 
-<div class="video-container">
 <video controls>
   <source src="/assets/video/dangerzone-081-usage.mp4" type="video/mp4">
   Your browser does not support embedded videos.
 </video>
-</div>
 
 *Dangerous files go in, safe PDFs come out. Dangerzone converts the files in a secure sandbox. (Credit: FPF)*
 

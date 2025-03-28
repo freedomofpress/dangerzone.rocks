@@ -560,3 +560,180 @@ figure figcaption {
 strong {
   font-weight: bold;
 }
+
+/* Navigation Drawer Styles */
+/* Accessibility helpers */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* Mobile Toggle Button */
+.nav-toggle {
+  display: none;  /* Hidden by default on desktop */
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 10px;
+  z-index: 1001;
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+}
+
+/* Creates the three-line "hamburger" icon for the mobile navigation */
+.hamburger,
+.hamburger::before,
+.hamburger::after {
+  display: block;
+  width: 24px;
+  height: 2px;
+  background-color: #592a00;
+  position: relative;
+  transition: all 0.3s ease-in-out;
+}
+
+/* Adjust the hamburger color on the homepage to account for its dark background */
+.index-header .hamburger,
+.index-header .hamburger::before,
+.index-header .hamburger::after {
+  background-color: #ffffff;
+}
+
+.hamburger::before,
+.hamburger::after {
+  content: '';
+  position: absolute;
+  left: 0;
+}
+
+.hamburger::before {
+  top: -8px;
+}
+
+.hamburger::after {
+  top: 8px;
+}
+
+
+/* Transform the hamburger into an "x" to close when the menu is expanded */
+.nav-toggle[aria-expanded="true"] .hamburger {
+  background: transparent;
+}
+
+.nav-toggle[aria-expanded="true"] .hamburger::before {
+  transform: rotate(45deg);
+  top: 0;
+}
+
+.nav-toggle[aria-expanded="true"] .hamburger::after {
+  transform: rotate(-45deg);
+  top: 0;
+}
+
+/* Current page indicator */
+.current-page {
+  font-weight: bold;
+}
+
+/* Collapse menu into icon on mobile screen resolutions */
+@media screen and (max-width: 768px) {
+  .nav-toggle {
+    display: block;
+  }
+
+  .nav-drawer {
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: 80%;
+    max-width: 300px;
+    height: 100vh;
+    background-color: white;
+    padding: 4rem 1.5rem 1.5rem;
+    box-shadow: -2px 0 10px rgba(0,0,0,0.1);
+    z-index: 1000;
+    transform: translateX(100%);
+    overflow-y: auto;
+    transition: transform 0.3s ease-in-out;
+  }
+
+  .index-header .nav-drawer {
+    background-color: #592a00;
+  }
+
+  .nav-drawer.open {
+    transform: translateX(0);
+  }
+
+  .nav-drawer li {
+    display: block;
+    margin: 0;
+    padding: 0.75rem 0;
+    border-bottom: 1px solid rgba(0,0,0,0.1);
+  }
+
+  .index-header .nav-drawer li {
+    border-bottom-color: rgba(255,255,255,0.1);
+  }
+
+  /* Overlay when menu is open, to set the drawer apart from the background */
+  body::after {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0,0,0,0.5);
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s, visibility 0.3s;
+    z-index: 999;
+    pointer-events: none;
+  }
+
+  body.menu-open::after {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+  }
+
+  body.menu-open {
+    overflow: hidden;
+  }
+}
+
+/* Fallback if JavaScript is disabled */
+.no-js .nav-toggle {
+  display: none !important;
+}
+
+.no-js .nav-drawer {
+  position: static;
+  width: auto;
+  height: auto;
+  transform: none;
+  padding: 1.5rem;
+  box-shadow: none;
+  background-color: transparent;
+  overflow: visible;
+}
+
+.no-js .nav-drawer li {
+  display: inline;
+  margin: 0 0.5rem 0 0;
+  padding: 0;
+  border-bottom: none;
+}
+
+.no-js .index-header .nav-drawer {
+  background-color: transparent;
+}

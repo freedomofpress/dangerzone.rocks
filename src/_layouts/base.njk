@@ -1,7 +1,7 @@
 <!DOCTYPE html>
-<html lang="en">
-
+<html lang="en" class="no-js">
 <head>
+  <script>document.documentElement.classList.remove('no-js');</script>
   <meta charset="utf-8">
   <title>{{ title | default("Dangerzone: Convert potentially dangerous documents into safe PDFs") }}</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -25,7 +25,11 @@
 
 <body>
 <header{% if page.url == '/' %} class="index-header"{% endif %}>
-  <nav class="clearfix">
+  <button id="nav-toggle" class="nav-toggle" aria-expanded="false" aria-controls="nav-drawer">
+    <span class="sr-only">Menu</span>
+    <span class="hamburger"></span>
+  </button>
+  <nav id="nav-drawer" class="nav-drawer clearfix">
     <ul>
       {% set navItems = [
         {url: '/', title: 'Main Page'},
@@ -39,10 +43,10 @@
       {% for item in navItems %}
         <li>
           {% if page.url == item.url %}
-            {{ item.title }}
+            <span class="current-page">{{ item.title }}</span>
           {% else %}
             <a href="{{ item.url }}"
-               {% if item.external %}target="_blank"{% endif %}
+               {% if item.external %}target="_blank" rel="noopener"{% endif %}
                {% if item.relMe %}rel="me"{% endif %}
             >{{ item.title }}</a>
           {% endif %}
@@ -66,6 +70,7 @@
       </div>
     </div>
   </footer>
+  <script src="/assets/js/drawer.js"></script>
 </body>
 
 </html>

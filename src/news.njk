@@ -3,7 +3,7 @@ layout: base
 title: News
 permalink: /news/
 ---
-<div class="wrapper article">
+<div class="wrapper article news-list">
   <h1>
     News
     <a href="/feed.xml" class="rss-link" title="Subscribe to RSS feed" aria-label="Subscribe to RSS feed">
@@ -21,11 +21,10 @@ permalink: /news/
     <div class="post-time"><time datetime="{{ post.date | dateIso }}">{{ post.date | dateReadable }}</time></div>
     {% if post.data.page.excerpt %}
       {{ post.data.page.excerpt | md | safe }}
-      <p><a href="{{ post.url }}">Read more</a></p>
+      <p><a href="{{ post.url }}">Read more →</a></p>
     {% else %}
       {{ post.templateContent | safe }}
     {% endif %}
   </article>
-  {% if not loop.last %}<hr>{% endif %}
 {% endfor %}
 </div>

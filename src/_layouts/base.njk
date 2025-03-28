@@ -24,45 +24,47 @@
 </head>
 
 <body>
-<header{% if page.url == '/' %} class="index-header"{% endif %}>
-  <nav class="clearfix">
-    <ul>
-      {% set navItems = [
-        {url: '/', title: 'Main Page'},
-        {url: '/about/', title: 'About'},
-        {url: '/news/', title: 'News'},
-        {url: 'https://github.com/freedomofpress/dangerzone/issues', title: 'Report an Issue', external: true},
-        {url: 'https://github.com/freedomofpress/dangerzone', title: 'Code', external: true},
-        {url: 'https://social.freedom.press/@dangerzone', title: 'Mastodon', external: true, relMe: true}
-      ] %}
+<header>
+  <div class="wrapper">
+    <nav class="clearfix">
+      <ul>
+        {% set navItems = [
+          {url: '/', title: 'Main Page'},
+          {url: '/about/', title: 'About'},
+          {url: '/news/', title: 'News'},
+          {url: 'https://github.com/freedomofpress/dangerzone/issues', title: 'Report an Issue', external: true},
+          {url: 'https://github.com/freedomofpress/dangerzone', title: 'Code', external: true},
+          {url: 'https://social.freedom.press/@dangerzone', title: 'Mastodon', external: true, relMe: true}
+        ] %}
 
-      {% for item in navItems %}
-        <li>
-          {% if page.url == item.url %}
-            {{ item.title }}
-          {% else %}
-            <a href="{{ item.url }}"
-               {% if item.external %}target="_blank"{% endif %}
-               {% if item.relMe %}rel="me"{% endif %}
-            >{{ item.title }}</a>
-          {% endif %}
-        </li>
-      {% endfor %}
-    </ul>
-  </nav>
+        {% for item in navItems %}
+          <li>
+            {% if page.url == item.url %}
+              <span>{{ item.title }}</span>
+            {% else %}
+              <a href="{{ item.url }}"
+                 {% if item.external %}target="_blank" rel="noopener noreferrer"{% endif %}
+                 {% if item.relMe %}rel="me"{% endif %}
+              >{{ item.title }}</a>
+            {% endif %}
+          </li>
+        {% endfor %}
+      </ul>
+    </nav>
+  </div>
 </header>
   <main>
   {{ content | safe | indent(4)}}
   </main>
   <footer>
-    <div class="wrapper" id="features">
+    <div class="wrapper">
       <div class="feature">
-        <p>Dangerzone is a <a href="https://freedom.press/">Freedom of the Press Foundation</a> project and
-          is open source, released under the <a href="https://www.gnu.org/licenses/agpl-3.0.en.html">AGPLv3 license</a></p>
+        <p>Dangerzone is a <a href="https://freedom.press/">Freedom of the Press Foundation</a> project.</p>
+        <p>It is open source, released under the <a href="https://www.gnu.org/licenses/agpl-3.0.en.html">AGPLv3 license</a>.</p>
       </div>
       <div class="feature">
-        <p>Dangerzone release signing key (not for communication)</p>
-        <p><a href="https://keys.openpgp.org/vks/v1/by-fingerprint/DE28AB241FA48260FAC9B8BAA7C9B38522604281">DE28 AB24 1FA4 8260 FAC9 B8BA A7C9 B385 2260 4281</a></p>
+        <p>Dangerzone release signing key (not for communication):<br>
+        <a href="https://keys.openpgp.org/vks/v1/by-fingerprint/DE28AB241FA48260FAC9B8BAA7C9B38522604281">DE28 AB24 1FA4 8260 FAC9 B8BA A7C9 B385 2260 4281</a></p>
       </div>
     </div>
   </footer>

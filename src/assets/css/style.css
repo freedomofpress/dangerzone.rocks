@@ -170,13 +170,6 @@ header ul li {
   color: var(--color-text-alternative);
 }
 
-#downloads h2,
-#news h2 {
-  display: inline-block;
-  background-color: var(--color-accent-background);
-  color: var(--color-background);
-}
-
 #downloads > a {
   color: var(--color-text-alternative);
 }

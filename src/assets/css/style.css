@@ -212,6 +212,11 @@ header ul li {
   padding-bottom: 2rem;
 }
 
+.osSecondary .image-alt{
+  background: var(--color-background);
+  border-radius: 25%;
+}
+
 #downloads p {
   margin-bottom: 1rem;
 }

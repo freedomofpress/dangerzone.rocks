@@ -552,6 +552,7 @@ figure {
 }
 
 figure figcaption {
+  margin-top: 0.25rem;
   text-align: center;
   font-style: italic;
   font-size: 0.875em;

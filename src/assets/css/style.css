@@ -594,3 +594,172 @@ video {
   height: auto;
   display: block;
 }
+
+* {
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+  transition: 0.1s;
+}
+
+/* --- Mobile Navigation Drawer Styles --- */
+
+@media (max-width: 959px) {
+
+  header {
+    position: relative;
+    z-index: 1001;
+  }
+
+  .nav-toggle-label {
+    display: block;
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    width: 30px;
+    height: 30px;
+    cursor: pointer;
+    z-index: 1002; /* Above nav and overlay */
+    background: none;
+    border: none;
+    padding: 0;
+  }
+
+  .hamburger-line {
+    display: block;
+    width: 100%;
+    height: 3px;
+    background-color: #999;
+    margin: 5px 0;
+    transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out;
+    border-radius: 1px;
+  }
+
+  .main-nav {
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: 300px;
+    max-width: 80%;
+    height: 100vh;
+    background-color: #333;
+    color: #eee;
+    box-shadow: -2px 0 5px rgba(0, 0, 0, 0.3);
+    transform: translateX(100%);
+    visibility: hidden;
+    transition: transform 0.3s ease-in-out, visibility 0s linear 0.3s;
+    z-index: 1001; /* Above overlay, below toggle */
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* Content area within the nav drawer */
+  .nav-content {
+      flex-grow: 1;
+      overflow-y: auto;
+      padding-top: 4rem;
+      position: relative;
+      z-index: 1;
+  }
+
+  .main-nav ul {
+    list-style: none;
+    padding: 1rem;
+    margin: 0;
+  }
+
+  .main-nav ul li {
+    display: block;
+    margin: 0 0 0.5rem 0;
+    text-align: left;
+  }
+
+  /* Style links and non-link active items */
+  .main-nav ul li a,
+  .main-nav ul li.is-active {
+    color: #eee;
+    text-decoration: none;
+    font-size: 1.1rem;
+    padding: 0.75rem 1rem;
+    display: block;
+    border-radius: 3px;
+    transition: background-color 0.2s ease, color 0.2s ease;
+  }
+
+  /* Active item styling */
+  .main-nav ul li.is-active {
+    font-weight: bold;
+    background-color: #f97b25;
+    color: #ffffff;
+  }
+
+  /* Hover/Focus for links */
+  .main-nav ul li:not(.is-active) a:hover,
+  .main-nav ul li:not(.is-active) a:focus {
+    background-color: #555;
+    color: #eee;
+    outline: none;
+  }
+
+  /* Background Overlay */
+  .nav-overlay {
+    display: block; /* Always in DOM, visibility controlled by opacity/vis */
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.7); /* Darker overlay */
+    z-index: 1000; /* Below nav drawer, above page content */
+    cursor: pointer;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease-in-out, visibility 0s linear 0.3s; /* Match nav transition */
+  }
+
+
+  /* --- Styles when the checkbox is checked (menu is open) --- */
+
+  /* Show Nav */
+  .nav-toggle-checkbox:checked ~ .main-nav {
+    transform: translateX(0);
+    visibility: visible;
+    transition: transform 0.3s ease-in-out, visibility 0s linear 0s;
+  }
+
+  /* Show Overlay */
+  .nav-toggle-checkbox:checked ~ .nav-overlay {
+    opacity: 1;
+    visibility: visible;
+    transition: opacity 0.3s ease-in-out, visibility 0s linear 0s;
+  }
+
+  /* Animate hamburger to X */
+  .nav-toggle-checkbox:checked ~ .nav-toggle-label .hamburger-line:nth-child(1) {
+    transform: translateY(8px) rotate(45deg);
+  }
+  .nav-toggle-checkbox:checked ~ .nav-toggle-label .hamburger-line:nth-child(2) {
+    opacity: 0;
+  }
+  .nav-toggle-checkbox:checked ~ .nav-toggle-label .hamburger-line:nth-child(3) {
+    transform: translateY(-8px) rotate(-45deg);
+  }
+
+  /* Ensure original header nav styling doesn't interfere */
+  header nav {
+    float: none;
+    padding: 0;
+    font-size: inherit;
+  }
+  header nav ul li {
+     margin: 0 0 1rem 0;
+  }
+} /* End mobile styles */
+
+/* Desktop nav styles */
+@media (min-width: 960px) {
+   /* Active menu item */
+  header .main-nav ul li.is-active {
+      font-weight: bold;
+  }
+}

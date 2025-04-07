@@ -81,7 +81,6 @@ a {
   text-decoration: none;
   background-color: var(--color-button-background);
   display: inline-block;
-
 }
 
 .buttonPrimary {
@@ -129,11 +128,6 @@ header nav {
 header ul li {
   display: inline;
   margin: 0 0.5rem 0 0;
-}
-
-.index-header,
-.index-header a {
-  color: var(--color-menu-text);
 }
 
 /*INTRO*/
@@ -184,8 +178,7 @@ header ul li {
   background-color: var(--color-button-alt-background);
 }
 
-
-#downloads .button:hover{
+#downloads .button:hover {
   background-color: var(--color-button-primary-background);
   color: var(--color-button-primary-text);
   box-shadow: 0 1px 4px rgba(0, 0, 0, 0.15);
@@ -212,7 +205,7 @@ header ul li {
   padding-bottom: 2rem;
 }
 
-.osSecondary .image-alt{
+.osSecondary .image-alt {
   background: var(--color-background);
   border-radius: 25%;
 }

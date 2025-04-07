@@ -7,6 +7,7 @@
 
 :root {
   --color-text: #000;
+  --color-links: #000;
   --color-background: #fff;
   --color-background-alternative: #222;
   --color-accent-background: #f97b25;
@@ -69,7 +70,7 @@ p {
 
 a {
   line-height: 1.5rem;
-  color: var(--color-accent-background);
+  color: var(--color-links);
 }
 
 .button {
@@ -164,8 +165,8 @@ header ul li {
   color: var(--color-text-alternative);
 }
 
-#downloads > a {
-  color: var(--color-text-alternative);
+#downloads a {
+  color: var(--color-accent-background);
 }
 
 #downloads img {

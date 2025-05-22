@@ -1,11 +1,11 @@
 ---
-title: Dangerzone team in Dataharvest '25
+title: Dangerzone team at Dataharvest '25
 date: 2025-05-22
 ---
 
-The Dangerzone team will be in [Dataharvest '25](https://dataharvest.eu), taking
+The Dangerzone team will be at [Dataharvest '25](https://dataharvest.eu), taking
 place on May 23-25, 2025 in Mechelen, Belgium. If you are coming to Dataharvest,
-feel free to reach out to us. We're more than happy to talk about Dangerzone, or
+feel free to reach out to us. We're more than happy to talk about Dangerzone and
 related topics.
 
 For more information on how to meet, you can send us a Signal message:

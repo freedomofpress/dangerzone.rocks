@@ -14,6 +14,7 @@
     "@11ty/eleventy": "^3.0.0"
   },
   "dependencies": {
-    "@11ty/eleventy-plugin-rss": "^1.0.5"
+    "@11ty/eleventy-plugin-rss": "^1.0.5",
+    "semver": "^7.7.3"
   }
 }

@@ -1,7 +1,8 @@
-const pluginRss = require("@11ty/eleventy-plugin-rss");
-const markdownIt = require("markdown-it");
+import pluginRss from "@11ty/eleventy-plugin-rss";
+import { gte } from "semver";
+import markdownIt from "markdown-it";
 
-module.exports = function (eleventyConfig) {
+export default function (eleventyConfig) {
   eleventyConfig.addPassthroughCopy("src/assets");
   eleventyConfig.addPassthroughCopy("src/favicon.ico");
   eleventyConfig.addPlugin(pluginRss);
@@ -29,7 +30,10 @@ module.exports = function (eleventyConfig) {
   eleventyConfig.addFilter("getLatestVersion", function (collection) {
     // Find the latest known version from the collection
     return collection?.reduce((latest, item) => {
-      return !latest || item.data.version > latest ? item.data.version : latest;
+      if (item.data.version == undefined) return latest;
+      return !latest || gte(item.data.version, latest)
+        ? item.data.version
+        : latest;
     }, null);
   });
 
@@ -40,4 +44,4 @@ module.exports = function (eleventyConfig) {
       includes: "_layouts",
     },
   };
-};
+}

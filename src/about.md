@@ -53,9 +53,10 @@ It uses [gVisor](https://gvisor.dev/) sandboxes running in Linux containers to o
 How does Dangerzone work?
 -------------------------
 
-Dangerzone uses Linux containers, which are isolated application environments that share the Linux kernel with their host. The easiest way to get containers running on Mac and Windows is by using [Docker Desktop](https://www.docker.com/products/docker-desktop). So when you first install Dangerzone, if you don’t already have Docker Desktop installed, it helps you download and install it.
+Dangerzone uses Linux containers, which are isolated application environments that share the Linux kernel with their host. On Windows and macOS, it uses [Podman](https://podman.io/) under the hood, which spins containers in a dedicated virtual machine. Since Dangerzone 0.10.0, all this complexity is hidden from the user.
 
 When Dangerzone starts the container that will sanitize the suspicious document, it will first start a gVisor sandbox _inside_ that container, then run the potentially-dangerous document processing workload inside the sandbox. This ensures that the process dealing with the document is isolated from the Linux kernel. The sandbox and its parent container are also both configured to _disable networking_ and to not mount anything from the host filesystem. So if a malicious document manages to execute arbitrary code, this code doesn’t have access to the host kernel, doesn't have access to your data, and can't use the internet, so there’s not much it could do.
+
 
 Here’s how it works. First, the sandbox:
 
@@ -93,16 +94,16 @@ Here are types of documents that Dangerzone can convert into safe PDFs:
 It’s still possible to get hacked with Dangerzone
 -------------------------------------------------
 
-Like all software, it’s possible that Dangerzone (and more importantly, the software that it relies on like LibreOffice and Docker) has security bugs. Malicious documents are designed to target a specific piece of software – for example, Adobe Reader on Mac. It’s possible that someone could craft a malicious document that specifically targets Dangerzone itself. An attacker would need to chain these exploits together to succeed at hacking Dangerzone:
+Like all software, it’s possible that Dangerzone (and more importantly, the software that it relies on like LibreOffice and Podman) has security bugs. Malicious documents are designed to target a specific piece of software – for example, Adobe Reader on Mac. It’s possible that someone could craft a malicious document that specifically targets Dangerzone itself. An attacker would need to chain these exploits together to succeed at hacking Dangerzone:
 
 * An exploit for either LibreOffice or PyMuPDF
 * A [sandbox escape exploit in the gVisor kernel](https://gvisor.dev/docs/architecture_guide/security/)
 * A container escape exploit in the Linux kernel that isn't protected by gVisor's syscall filters
-* In Mac and Windows, a VM escape exploit for Docker Desktop
+* In Mac and Windows, a VM escape exploit for Podman
 
 For example, let's say that you open a malicious `.docx` file that specifically targets Dangerzone. What Dangerzone would do first is to start a Linux container, then start a gVisor sandbox within it, and finally begin the conversion process into a PDF using LibreOffice. If the malicious document wants to escape to the host, it first needs to exploit a vulnerability in LibreOffice to achieve code execution. Once it has control of LibreOffice, it needs to exploit a vulnerability in the gVisor kernel to escape the sandbox. Assuming it finds one, it then needs to find a different vulnerability in the Linux kernel to escape the container, and from there attempt to take over the computer.
 
-If you keep Docker Desktop and Dangerzone updated regularly, such attacks will be much more expensive for attackers.
+If you keep Dangerzone updated regularly, such attacks will be much more expensive for attackers.
 
 Another way a malicious document may harm your system, even with Dangerzone, is if it is crafted to attack the document previewing capabilities of the operating system itself (e.g. the part that generates file thumbnails or document previews in a side-panel of the file manager). Due to the high level of integration of these features in the operating system, disabling them completely may be challenging. For this reason, keeping your system always up to date is the most practical solution to minimize this risk.
 

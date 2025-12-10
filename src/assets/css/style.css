@@ -515,7 +515,7 @@ ul li {
 /* Ordered list style */
 ol li {
   list-style-type: decimal;
-  margin-bottom: 0.25rem;
+  margin-bottom: 1rem;
 }
 
 /* Table styling inspired by PicoCSS, https://picocss.com/, MIT License */
@@ -564,6 +564,7 @@ pre {
 }
 
 pre code {
+  font-size: 1em;
   display: block;
   padding: 0;
   background: none;

@@ -1,0 +1,6 @@
+# Web team and Dangerzone developers are codeowners for all website changes
+*   @freedomofpress/fpf-web-developers
+*   @freedomofpress/dangerzone-maintainers
+
+# The web team manager(s) should be in the loop on all ownership modifications
+.github/CODEOWNERS    @freedomofpress/fpf-web-managers

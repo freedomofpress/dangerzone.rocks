@@ -48,10 +48,11 @@ html {
 
 body {
   background-color: var(--color-background);
+  font-size: 1.2rem;
 }
 
 h1 {
-  font-size: 3.5rem;
+  font-size: 2.8rem;
   line-height: 5.25rem;
   margin-bottom: 1rem;
 }
@@ -67,11 +68,10 @@ h2 {
 }
 
 h3 {
-  font-size: 1.2rem;
+  font-size: 1.6rem;
 }
 
 p {
-  font-size: 1rem;
   line-height: 1.5rem;
 }
 
@@ -450,12 +450,6 @@ footer .onion img {
   font-size: small;
 }
 
-/* Restore numbering for ordered lists */
-ol {
-  list-style-type: decimal;
-  margin-left: 1.5em;
-  padding-left: 1.5em;
-}
 
 .post-time {
   font-weight: bold;
@@ -500,10 +494,11 @@ ul,
 ol {
   margin-top: 1rem;
   margin-bottom: 1rem;
-  padding-left: 1rem;
-  font-style: normal;
-  font-weight: 400;
+  margin-left: 1.5em;
+  padding-left: 1.5em;
+  line-height: 1.5rem;
 }
+
 
 /* Unordered list style */
 ul li {

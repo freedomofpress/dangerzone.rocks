@@ -247,7 +247,7 @@ Also, it has a CI job that still reproduces `sha256:b0088ba0110c2acfe757eaf41967
 
 ## Future work
 
-There are several things that we’d like to tackle, but we haven’t managed to do so yet:
+All this is exciting, but there is still room for improvement:
 
 1. Include the build environment and instructions within the container image.
 2. Implement a CI system where we can enroll reproducible images and continuously build and verify them, same as Debian has for their packages.

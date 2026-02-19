@@ -122,7 +122,9 @@ Reminder: A requirement for reproducible builds is to have the same **build envi
 What if we build the above image with Podman?
 
 ```shell
-$ podman build --no-cache --source-date-epoch 1677619260 --rewrite-timestamp .␋[...]␋4eb5ec336a90d4fb2ab7449782c3efdbfac8dcd11037b89213bf90ef2faec977
+$ podman build --no-cache --source-date-epoch 1677619260 --rewrite-timestamp
+[...]
+4eb5ec336a90d4fb2ab7449782c3efdbfac8dcd11037b89213bf90ef2faec977
 ```
 
 **The digest is different**. Let’s check how many differences `diffoci` reports:

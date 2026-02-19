@@ -241,11 +241,7 @@ For simple image builds, you can consider this a drop-in replacement for `docker
 
 ### Reproducible container images
 
-Our [repro-build](https://github.com/freedomofpress/repro-build) repo has a CI job that builds new container images nightly and then rebuilds them immediately, to make sure that they are reproducible. This CI job reuses the helpers we mentioned above, and produces container images that you can independently reproduce and verify:
-
-| Distro | Dockerfile | GHCR Link |
-| ----- | ----- | ----- |
-| Debian | [Dockerfile.debian](https://github.com/freedomofpress/repro-build/blob/main/Dockerfile.debian) | [ghcr.io/freedomofpress/repro-build/debian](https://ghcr.io/freedomofpress/repro-build/debian) |
+Our [repro-build](https://github.com/freedomofpress/repro-build) repo has a CI job that builds [Debian images](https://github.com/freedomofpress/repro-build/pkgs/container/repro-build%2Fdebian) from snapshot repos nightly and then rebuilds them immediately, to make sure that they are reproducible. This CI job reuses the helpers we mentioned above, and produces container images that you can independently reproduce and verify.
 
 Also, it has a CI job that still reproduces `sha256:b0088ba0110c2acfe757eaf41967ac09fe16e96a8775b998577f86d90b3dbe53` every night, across container runtimes, BuildKit versions, and host images. You are more than welcome to copy our workflow and do the same for your images.
 

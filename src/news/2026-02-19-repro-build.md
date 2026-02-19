@@ -16,11 +16,11 @@ When talking about reproducible **container** images, the two main container man
 * For BuildKit, specify `SOURCE_DATE_EPOCH` in your Dockerfile (or environment) and pass the `rewrite-timestamp=true` option ([source](https://github.com/moby/buildkit/blob/master/docs/build-repro.md)).
 * For Buildah, specify `SOURCE_DATE_EPOCH` in your Dockerfile (or environment or use the CLI option `--source-date-epoch`) and pass the `--rewrite-timestamp` option ([source](https://docs.redhat.com/en/documentation/red_hat_enterprise_linux/10/html/building_running_and_managing_containers/introduction-to-reproducible-container-builds)).
 
-### Let’s create a reproducible image
+## Let’s create a reproducible image
 
 Reproducibility is actually much more than setting a timestamp. The image itself must be free of any sources of nondeterminism. Let’s consider a Dockerfile, where we install `gcc` in a Debian image that was created on 2023-09-04 and has remained the same ever since:
 
-```
+```Dockerfile
 FROM debian:bookworm-20230904-slim
 RUN apt-get update && apt-get install -y gcc
 ```
@@ -78,7 +78,7 @@ Makes sense, the fact that we define `SOURCE_DATE_EPOCH` does not alter the time
 
 But there’s more to that:
 
-```
+```shell
 $ docker run --rm <image> apt-cache policy gcc
 gcc:
   Installed: 4:12.2.0-3
@@ -95,7 +95,7 @@ The proper solution here is another project by Reproducible Containers, [`repro-
 
 Here’s a better Dockerfile using this script:
 
-```
+```Dockerfile
 FROM debian:bookworm-20230904-slim
 ENV DEBIAN_FRONTEND=noninteractive
 RUN \
@@ -115,34 +115,34 @@ Because we want to make sure that what we’re building now can be reproduced in
 
 Well, until Feb. 20, 2025. But more on that below — we’re getting ahead of ourselves.
 
-### On build environments
+## On build environments
 
 Reminder: A requirement for reproducible builds is to have the same **build environment** and **build instructions**. For container images, the build environment is the base container image, and the build instructions are the Dockerfile. But that’s not the whole story.
 
 What if we build the above image with Podman?
 
-```
+```shell
 $ podman build --no-cache --source-date-epoch 1677619260 --rewrite-timestamp .␋[...]␋4eb5ec336a90d4fb2ab7449782c3efdbfac8dcd11037b89213bf90ef2faec977
 ```
 
 **The digest is different**. Let’s check how many differences `diffoci` reports:
 
-```
+```shell
 $ diffoci diff <image1> <image2> | wc -l
 847
 ```
 
 Welp, that’s a lot of stuff there. The majority of those are filename reorders within the layer tarballs, some others are about `.wh.*` files, and some are about the image format itself (OCI vs. Docker). And yet, that does not mean that the container image is not reproducible. Quoting again from Reproducible Builds:
 
-> “Reproducible builds does not mandate that a given piece of source code is turned into the same bytes in all situations. This would be unfeasible. The output of a compiler is likely to be different from one version to another as better optimizations are integrated all the time.
+> Reproducible builds does not mandate that a given piece of source code is turned into the same bytes in all situations. This would be unfeasible. The output of a compiler is likely to be different from one version to another as better optimizations are integrated all the time.
 >
-> “Instead, reproducible builds happen in the context of a build environment. It usually comprises the set of tools, required versions, and other assumptions about the operating system and its configuration. A description of this environment should typically be recorded and provided alongside any distributed binary package.”
+> Instead, reproducible builds happen in the context of a build environment. It usually comprises the set of tools, required versions, and other assumptions about the operating system and its configuration. A description of this environment should typically be recorded and provided alongside any distributed binary package.
 
 The point here is that the image builder, its version, and its arguments are part of the build environment and the build instructions. That’s why projects like Tor and Bitcoin use their own version of a [static toolchain](https://reproducible-builds.org/docs/virtual-machine-drivers/), possibly within a machine or container. And not only that, but OSes like Debian have [CI tests](https://tests.reproducible-builds.org/debian/reproducible.html) that verify packages remain reproducible and don’t have regressions.
 
 So, what happened on Feb. 20, 2025? BuildKit `v0.20.0` was released, and our CI tests picked it up. This release had a small regression and added an extra field in the image config:
 
-```
+```shell
 $ diff -y config.b19 config.b20
 [...] ␋"rootfs": {                                                     "rootfs": {
     "type": "layers",                                               "type": "layers",
@@ -160,7 +160,7 @@ $ diff -y config.b19 config.b20
 
 This was enough to affect the digest of the image. But because we had these CI tests in place, we detected it immediately and opened [moby/buildkit#5774](https://github.com/moby/buildkit/issues/5774). The regression has been fixed, and the hash has remained unchanged ever since.
 
-### Introducing repro-build, a collection of helpers for reproducible images
+## Introducing repro-build, a collection of helpers for reproducible images
 
 We strongly believe that reproducible containers that are built and verified only once are prone to rot. If we want more people to engage with them, they need a toolchain to work with and an easy way to continuously reproduce them as part of their CI tests.
 
@@ -173,7 +173,7 @@ With this in mind, we created [https://github.com/freedomofpress/repro-build](ht
 
 Let’s see that in more detail:
 
-#### The Python script
+### The Python script
 
 [`repro-build`](https://github.com/freedomofpress/repro-build?tab=readme-ov-file#build-a-container-image-locally):
 
@@ -212,11 +212,11 @@ This is a simple script that:
 
 It’s our tested version of a static toolchain.
 
-#### A replacement for the [`docker/build-push-action`](https://github.com/docker/build-push-action) GitHub action that can reproducibly build container images
+### A replacement for the [`docker/build-push-action`](https://github.com/docker/build-push-action) GitHub action that can reproducibly build container images
 
 [`freedomofpress/repro-build@v1`](https://github.com/freedomofpress/repro-build?tab=readme-ov-file#reproducible-build-action-freedomofpressrepro-buildv1):
 
-```
+```yaml
 - name: Reproducibly build and push image
   uses: freedomofpress/repro-build@v1
   with:
@@ -229,11 +229,11 @@ It’s our tested version of a static toolchain.
 
 For simple image builds, you can consider this a drop-in replacement for `docker/build-push-action`, doing a similar job as the above script. We know, because we make sure that both this action and the above script create, bit-for-bit, the same images.
 
-#### A GitHub action that rebuilds a container image and compares the digests
+### A GitHub action that rebuilds a container image and compares the digests
 
 [`freedomofpress/repro-build/verify@v1`](https://github.com/freedomofpress/repro-build?tab=readme-ov-file#reproduce-and-verify-action-freedomofpressrepro-buildverifyv1):
 
-```
+```yaml
 - name: Verify image reproducibility
   uses: freedomofpress/repro-build/verify@v1
   with:
@@ -244,7 +244,7 @@ For simple image builds, you can consider this a drop-in replacement for `docker
     runtime: podman
 ```
 
-#### Reproducible container images
+### Reproducible container images
 
 Our [repro-build](https://github.com/freedomofpress/repro-build) repo has a CI job that builds new container images nightly and then rebuilds them immediately, to make sure that they are reproducible. This CI job reuses the helpers we mentioned above, and produces container images that you can independently reproduce and verify:
 
@@ -254,7 +254,7 @@ Our [repro-build](https://github.com/freedomofpress/repro-build) repo has a CI j
 
 Also, it has a CI job that still reproduces `sha256:b0088ba0110c2acfe757eaf41967ac09fe16e96a8775b998577f86d90b3dbe53` every night, across container runtimes, BuildKit versions, and host images. You are more than welcome to copy our workflow and do the same for your images.
 
-### Future work
+## Future work
 
 There are several things that we’d like to tackle, but we haven’t managed to do so yet:
 

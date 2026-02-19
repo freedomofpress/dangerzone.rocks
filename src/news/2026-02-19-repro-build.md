@@ -142,21 +142,14 @@ The point here is that the image builder, its version, and its arguments are par
 
 So, what happened on Feb. 20, 2025? BuildKit `v0.20.0` was released, and our CI tests picked it up. This release had a small regression and added an extra field in the image config:
 
-```shell
-$ diff -y config.b19 config.b20
-[...] ␋"rootfs": {                                                     "rootfs": {
-    "type": "layers",                                               "type": "layers",
-    "diff_ids": [                                                   "diff_ids": [
-      "sha256:341de903723838835820feffc6ff0ab04ea7ffddd3886cd         "sha256:341de903723838835820feffc6ff0ab04ea7ffddd3886cd
-      "sha256:cdc84d7fdc4c77e4965366c040d1e0aae36b6adba12d7e2         "sha256:cdc84d7fdc4c77e4965366c040d1e0aae36b6adba12d7e2
-    ]                                                               ]
-  }                                                           |   },
-                                                              >   "variant": "v8"
-}                                                               }
+```diff
+    "rootfs": {
+      "type": "layers",
+      "diff_ids": ["sha256:341de903..."]
+-   }
++   },
++   "variant": "v8"
 ```
-
-
-(see the extra `”variant”: “v8”` on the right side of the diff)
 
 This was enough to affect the digest of the image. But because we had these CI tests in place, we detected it immediately and opened [moby/buildkit#5774](https://github.com/moby/buildkit/issues/5774). The regression has been fixed, and the hash has remained unchanged ever since.
 

@@ -1,18 +1,25 @@
 import pluginRss from "@11ty/eleventy-plugin-rss";
+import syntaxHighlight from "@11ty/eleventy-plugin-syntaxhighlight";
+import markdownPrismJs from "@11ty/eleventy-plugin-syntaxhighlight/src/markdownSyntaxHighlightOptions.js";
 import { gte } from "semver";
 import markdownIt from "markdown-it";
 
 export default function (eleventyConfig) {
+  const markdown = markdownIt({
+    html: true,
+    highlight: markdownPrismJs({ lineSeparator: "\n" }),
+  });
   eleventyConfig.addPassthroughCopy("src/assets");
   eleventyConfig.addPassthroughCopy("src/favicon.ico");
   eleventyConfig.addPlugin(pluginRss);
+  eleventyConfig.addPlugin(syntaxHighlight);
 
   eleventyConfig.setFrontMatterParsingOptions({
     excerpt: true,
   });
 
   eleventyConfig.addFilter("md", function (content = "") {
-    return markdownIt({ html: true }).render(content);
+    return markdown.render(content);
   });
 
   eleventyConfig.addFilter("dateIso", (date) => {

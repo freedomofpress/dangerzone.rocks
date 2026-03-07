@@ -365,7 +365,6 @@ header ul li {
 /*FOOTER*/
 
 footer {
-  font-size: 0.75rem;
   padding: 1rem;
   border-top: 1px solid rgba(0, 0, 0, 0.1);
   color: #ffffff;
@@ -373,7 +372,6 @@ footer {
 }
 
 footer p {
-  font-size: 0.75rem;
   line-height: 1.25rem;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -383,7 +381,14 @@ footer p {
 footer a {
   line-height: inherit;
   color: var(--color-accent-text);
-  background-color: var(--color-accent-background);
+  text-decoration: underline;
+  text-decoration-color: var(--color-accent-background);
+  text-decoration-thickness: 3px;
+}
+
+footer a:hover {
+  color: var(--color-accent-text);
+  background-color: var(--color-accent-background-dimmed);
 }
 
 footer ul li {

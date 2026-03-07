@@ -7,13 +7,14 @@
 
 :root {
   --color-text: #000;
+  --color-headings: rgb(86, 85, 85);
   --color-links: #000;
   --color-background: #fff;
   --color-background-alternative: #222;
   --color-accent-background: #f97b25;
+  --color-accent-background-dimmed: #f97a2551;
   --color-accent-text: #000;
-  --color-selection-background: var(--color-accent-background);
-  --color-selection-text: var(--color-background);
+  --color-selection-background: var(--color-accent-background-dimmed);
   --color-button-text: #000;
   --color-button-background: #fff;
   --color-button-primary-text: var(--color-text);
@@ -52,9 +53,10 @@ body {
 }
 
 h1 {
-  font-size: 3rem;
+  font-size: 4rem;
   line-height: 5.25rem;
-  margin-bottom: 1rem;
+  margin-bottom: 3rem;
+  text-shadow: 5px 2px 0 var(--color-accent-background-dimmed), -2px -2px 0 rgba(255, 255, 255, 0.4);
 }
 
 h2, h3 {

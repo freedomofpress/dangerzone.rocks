@@ -148,7 +148,7 @@ header ul li {
 #intro {
   text-align: center;
   color: var(--color-text);
-  padding: 4.5rem 0 4rem 0;
+  padding: 4.5rem 0 0 0;
   /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#fcfcfc+0,f2f2f2+100 */
   background: var(--color-background);
 }
@@ -331,8 +331,8 @@ header ul li {
 }
 
 .article p {
-  line-height: 1.5rem;
-  margin: 0.7rem 0;
+  line-height: 2rem;
+  margin: 1rem 0;
 }
 
 .article b,

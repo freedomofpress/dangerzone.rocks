@@ -371,13 +371,6 @@ footer {
   display: flex;
 }
 
-footer p {
-  line-height: 1.25rem;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  margin-bottom: 0.5rem;
-}
-
 footer a {
   line-height: inherit;
   color: var(--color-accent-text);

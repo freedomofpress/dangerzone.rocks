@@ -90,6 +90,10 @@ a {
   color: var(--color-links);
 }
 
+a:hover {
+  text-decoration-color: var(--color-accent-background);
+}
+
 .button {
   border: 1px solid;
   padding: 0.625rem 1rem;
@@ -351,6 +355,10 @@ header ul li {
 
 .article h2 {
   text-transform: none;
+}
+
+.article a:hover {
+  background-color: var(--color-accent-background-dimmed);
 }
 
 .feature {

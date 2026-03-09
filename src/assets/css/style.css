@@ -153,7 +153,6 @@ header ul li {
   text-align: center;
   color: var(--color-text);
   padding: 4.5rem 0 0 0;
-  /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#fcfcfc+0,f2f2f2+100 */
   background: var(--color-background);
 }
 
@@ -359,6 +358,11 @@ header ul li {
 
 .article a:hover {
   background-color: var(--color-accent-background-dimmed);
+}
+
+.article hr {
+  margin: 5em 0px;
+  color: var(--color-background);
 }
 
 .feature {
@@ -606,8 +610,67 @@ strong {
   font-weight: bold;
 }
 
+
 video {
   width: 100%;
   height: auto;
   display: block;
+}
+
+.container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+
+  & .card {
+    flex: 1 0 calc(25% - 20px);
+    min-width: 240px;
+    min-height: 8em;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    transition:
+      transform 0.2s ease,
+      box-shadow 0.2s ease;
+
+    &:hover {
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.12);
+
+      a {
+        text-decoration-color: var(--color-accent-background);
+      }
+    }
+
+    & h2 {
+      text-transform: none;
+      margin-top: 0px;
+      margin-bottom: 0px;
+      padding: 16px 20px 0;
+      font-size: 1em;
+      font-weight: 600;
+    }
+
+    & time {
+      display: block;
+      padding: 8px 20px 16px;
+      color: #718096;
+      font-size: 14px;
+      letter-spacing: 0.01em;
+      position: relative;
+    }
+  }
+}
+
+#featured {
+  background-color: var(--color-text);
+  color: var(--color-background);
+  margin: auto;
+  padding: 2em 0em;
+  text-align: center;
+
+  a {
+    color: var(--color-background);
+  }
 }

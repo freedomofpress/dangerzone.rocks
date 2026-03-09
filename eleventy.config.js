@@ -44,6 +44,11 @@ export default function (eleventyConfig) {
     }, null);
   });
 
+  eleventyConfig.addFilter("latest", function (collection) {
+    // Find the latest element of a collection
+    return collection[collection.length - 1];
+  });
+
   return {
     dir: {
       input: "src",

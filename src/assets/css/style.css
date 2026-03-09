@@ -662,3 +662,15 @@ video {
     }
   }
 }
+
+#featured {
+  background-color: var(--color-text);
+  color: var(--color-background);
+  margin: auto;
+  padding: 2em 0em;
+  text-align: center;
+
+  a {
+    color: var(--color-background);
+  }
+}

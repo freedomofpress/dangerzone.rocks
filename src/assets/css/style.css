@@ -361,7 +361,7 @@ header ul li {
 }
 
 .article hr {
-  margin: 5em 0px;
+  margin: 3em 0px;
   color: var(--color-background);
 }
 
@@ -379,7 +379,8 @@ header ul li {
 footer {
   padding: 1rem;
   border-top: 1px solid rgba(0, 0, 0, 0.1);
-  color: #ffffff;
+  background-color: var(--color-background);
+  color: var(--color-text);
   display: flex;
 }
 
@@ -404,6 +405,13 @@ footer ul li {
 
 footer .wrapper {
   padding: 0;
+  display: flex;
+  width: 100%;
+}
+
+footer .feature {
+  flex: 1;
+  padding: 1rem;
 }
 
 footer .onion {

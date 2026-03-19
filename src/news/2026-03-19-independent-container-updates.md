@@ -135,7 +135,7 @@ So, how do you sign container images? Use `cosign sign`\! It does the following:
 
 The signature itself and the way the signature is attached to the container registry is part of [the signature specification](https://github.com/sigstore/cosign/blob/main/specs/SIGNATURE_SPEC.md#storage).
 
-*\[The following section explains how signatures are computed and applied to a container registry. If you are not interested in the deep dive, you can skip to [the following section about verifying the container signatures](#verifying-signatures)\]*
+*\[The following section explains how signatures are computed and applied to a container registry. If you are not interested in the deep dive, you can skip to [the following section about verifying the container signatures](#verifying-the-signatures)\]*
 
 Let's have a look at the signatures for our latest container image:
 
@@ -260,7 +260,7 @@ YvAg7A+aeerM5hvc4CCCJFBae5AjnsjGHv4V/3xzssck6e51W+b0jU4qVw==
 -----END PUBLIC KEY-----
 ```
 
-## Verifying the signatures {#verifying-signatures}
+## Verifying the signatures
 
 Now that you understand how everything is stored in the container registry, let's switch perspectives and step into the shoes of the user of the application. How can we validate that the signatures are valid?
 

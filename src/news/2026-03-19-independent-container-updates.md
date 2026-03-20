@@ -99,7 +99,7 @@ predicate: {{
       // This condition verifies that the image was generated from
       // the source repository we expect. Replace this with your
       // repository.
-      uri: =~"^git\\+https://github.com/{repository}"
+      uri: =~"^git\\+https://github.com/freedomofpress/dangerzone"
     }}
   }}
 }}
@@ -107,17 +107,17 @@ predicate: {{
 {% endraw %}
 
 
-Of course, you don't have to know all this\! Just using `cosign verify-attestation` will do that for you (if you don’t know Cosign*,* don’t fret; we’ll talk about it again very soon).
+Of course, you don't have to know all this\! Just using `cosign verify-attestation` will do that for you (if you don’t know Cosign, don’t fret; we’ll talk about it again very soon).
 
 ## Reproducible images
 
-Once we are sure the image comes from the expected repository and workflow, we want to make sure we are able to reproduce the container image.
+Once we are sure the image comes from the expected repository and workflow, we want to make sure we are able to reproduce it locally.
 
 One of our prerequisites is that you don't really have to trust us. When we ship a container image, you should be able to verify that the container image matches our published source code.
 
 That's where reproducible container images enter in the landscape. You can build yourself a container image based on a specific git commit, and it will be bit for bit the same as the one we have signed and distributed.
 
-If you are interested in knowing more about this, you can [read our article on the matter](https://dangerzone.rocks/news/2026-03-02-repro-build/)
+If you are interested in knowing more about this, you can [read our article on the matter](https://dangerzone.rocks/news/2026-03-02-repro-build/).
 
 ## Signing an image
 
@@ -131,7 +131,7 @@ So, how do you sign container images? Use `cosign sign`\! It does the following:
 
 1. Generates a signature using the provided keys.  
 2. Uploads the signature to the auditable log and gets back a tamper-resistant proof.  
-3. Attaches the signature and the proof to the container registry, at sha256-{digest}.sig .
+3. Attaches the signature and the proof to the container registry, at `sha256-{digest}.sig`.
 
 The signature itself and the way the signature is attached to the container registry is part of [the signature specification](https://github.com/sigstore/cosign/blob/main/specs/SIGNATURE_SPEC.md#storage).
 
@@ -170,7 +170,7 @@ Outputs:
 
 There is a lot to unpack here. Two main things are of interest:
 
-First, the digest of our *payload* is stored under the `layer.digest` key, where you can read `sha256:88b8a2ac5b829f47bd25a5a4d9c2ccb0fccff7f53a17477b6d9b5680436aa80f`. Retrieving the referenced blob, we can see:
+First, the digest of the Cosign *payload* is stored under the `layers[0].digest` key, where you can read `sha256:88b8a2ac5b829f47bd25a5a4d9c2ccb0fccff7f53a17477b6d9b5680436aa80f`. Let's retrieve it from the referenced blob:
 
 ```bash
 crane blob ghcr.io/freedomofpress/dangerzone/v1@sha256:88b8a2ac5b829f47bd25a5a4d9c2ccb0fccff7f53a17477b6d9b5680436aa80f | jq .
@@ -264,12 +264,13 @@ YvAg7A+aeerM5hvc4CCCJFBae5AjnsjGHv4V/3xzssck6e51W+b0jU4qVw==
 
 Now that you understand how everything is stored in the container registry, let's switch perspectives and step into the shoes of the user of the application. How can we validate that the signatures are valid?
 
-As usual in these cases, don't do it yourself\! `Cosign` provides a tool to verify a *signature* against a *payload* and a *public key*. In our case, we need to do a small rearrangement of how the payload is laid out to follow the format expected by *Cosign*, but that's mainly it.
+As usual in these cases, don't do it yourself\! *Cosign* provides a tool to verify a *signature* against a *payload* and a *public key*. In our case, we need to do a small rearrangement of how the payload is laid out to follow the format expected by *Cosign*, but that's mainly it.
 
 In Dangerzone, we implemented the logic to do that [using Python](https://github.com/freedomofpress/dangerzone/blob/58aed2d6f6dedebc2bbbc4a96fe69ac9c425b508/dangerzone/updater/signatures.py#L108-L157), but here is a version that's easier to use in a terminal, using *`jq`*:
 
 ```bash
-jq --rawfile payload payload --slurpfile bundle registry_bundle '
+crane manifest ghcr.io/freedomofpress/dangerzone/v1:sha256-7396780b5862cf8b37527854a2a2331e5c746b6a71aa1f424258c3bfaf3a1bd7.sig \
+  | jq --rawfile payload payload --slurpfile bundle registry_bundle '
     .layers[0] as $layer |
     $bundle[0] as $bundle |
     {

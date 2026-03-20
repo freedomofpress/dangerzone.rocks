@@ -28,7 +28,7 @@ Here is what we're doing when [releasing a container image](https://github.com/f
 2. Making sure it is reproducible.  
 3. Signing it.
 
-So, how do we do this? Let's go for a small walk\!
+So, how do we do this? Let's go for a small walk!
 
 ## Checking image provenance
 

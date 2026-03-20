@@ -140,7 +140,7 @@ The signature itself and the way the signature is attached to the container regi
 Let's have a look at the signatures for our latest container image:
 
 ```bash
-$ crane manifest ghcr.io/freedomofpress/dangerzone/v1:sha256-7396780b5862cf8b37527854a2a2331e5c746b6a71aa1f424258c3bfaf3a1bd7.sig | jq
+crane manifest ghcr.io/freedomofpress/dangerzone/v1:sha256-7396780b5862cf8b37527854a2a2331e5c746b6a71aa1f424258c3bfaf3a1bd7.sig | jq
 ```
 
 Outputs:

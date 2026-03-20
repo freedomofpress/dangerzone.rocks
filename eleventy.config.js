@@ -1,6 +1,8 @@
 import pluginRss from "@11ty/eleventy-plugin-rss";
 import syntaxHighlight from "@11ty/eleventy-plugin-syntaxhighlight";
 import markdownPrismJs from "@11ty/eleventy-plugin-syntaxhighlight/src/markdownSyntaxHighlightOptions.js";
+import { IdAttributePlugin } from "@11ty/eleventy";
+
 import { gte } from "semver";
 import markdownIt from "markdown-it";
 
@@ -9,11 +11,11 @@ export default function (eleventyConfig) {
     html: true,
     highlight: markdownPrismJs({ lineSeparator: "\n" }),
   });
+  eleventyConfig.addPlugin(IdAttributePlugin);
   eleventyConfig.addPassthroughCopy("src/assets");
   eleventyConfig.addPassthroughCopy("src/favicon.ico");
   eleventyConfig.addPlugin(pluginRss);
   eleventyConfig.addPlugin(syntaxHighlight);
-
   eleventyConfig.setFrontMatterParsingOptions({
     excerpt: true,
   });

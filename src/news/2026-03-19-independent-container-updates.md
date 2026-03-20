@@ -94,7 +94,7 @@ predicate: {{
       // This condition verifies the entrypoint of the workflow.
       // Replace with the relative path to your workflow in your
       // repository.
-      entryPoint: "{workflow}"
+      entryPoint: ".github/workflows/release-container-image.yml"
 
       // This condition verifies that the image was generated from
       // the source repository we expect. Replace this with your

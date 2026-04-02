@@ -30,7 +30,7 @@ PDFs and office documents are incredibly complex. They can be made to automatica
 
 For example, if an attacker knows about a security bug in Microsoft Word, they can carefully craft a Word document that, when opened using a vulnerable version of Word, will hack your computer. All they have to do is trick you into opening it, perhaps by sending you a convincing enough phishing email.
 
-This is exactly what Russian military intelligence did during the 2016 US election. First, they hacked a US election vendor known as VR Systems and got their client list. Then they send 122 emails to VR Systems’ clients (election workers in swing states) from the email address **vrelections@gmail.com**, with the attachment "New EViD User Guides.docm".
+This is exactly what Russian military intelligence did during the 2016 US election. First, they hacked a US election vendor known as VR Systems and got their client list. Then they sent 122 emails to VR Systems’ clients (election workers in swing states) from the email address **vrelections@gmail.com**, with the attachment "New EViD User Guides.docm".
 
 
 ![Email screenshot claiming to be from VR Systems Inc with subject "New EViD User Guides" containing a 523 KB .docm attachment](/assets/img/evid.jpg)

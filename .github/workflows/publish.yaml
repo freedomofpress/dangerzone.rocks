@@ -4,22 +4,41 @@ name: Publish
 on:
   push:
     branches: ["main"]
+  workflow_dispatch:
 
-env:
-  DEFAULT_BRANCH: main
+concurrency:
+  group: pages
+  cancel-in-progress: false
 
 jobs:
   build:
     name: Build
-    uses: freedomofpress/actionslib/.github/workflows/oci-build.yaml@main
+    runs-on: ubuntu-latest
     permissions:
       contents: read
-      actions: read
-      packages: write
-    with:
-      context: "."
-      containerfile: deploy/Dockerfile
-      registry: ghcr.io/freedomofpress/dangerzone-rocks
-      add-branch-tags: true
-    secrets:
-      registry-password: ${{ secrets.GITHUB_TOKEN }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: lts/*
+          cache: npm
+      - run: npm ci
+      - run: npm run build
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: dist
+
+  deploy:
+    name: Deploy
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4

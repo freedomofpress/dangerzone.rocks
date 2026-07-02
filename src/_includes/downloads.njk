@@ -14,15 +14,17 @@
           <a href="https://support.apple.com/en-us/HT211814">Which one do I have?</a>
         </p>
     </div>
+    {% if not hide_windows %}
     <div class="osPrimary">
       <img src="/assets/img/windows-logo.png" alt="Windows Logo">
       <p class="title">Windows</p>
       <a class="button"
-        href="https://github.com/freedomofpress/dangerzone/releases/download/v{{ version }}/Dangerzone-{{ version }}.msi">Download for
-        Windows</a>
+        href="{% if windows_version %}https://github.com/freedomofpress/dangerzone/releases/download/v{{ windows_version }}/Dangerzone-{{ windows_version }}.msi"{% else %}https://github.com/freedomofpress/dangerzone/releases/download/v{{ version }}/Dangerzone-{{ version }}.msi"{% endif %}>Download for
+        Windows {% if windows_version %}({{ windows_version }}){% endif %}</a>
         <p class="cpu-arch-info">&#65039; <!-- invalid emoji to display same-height whitespace as macOS -->
         </p>
     </div>
+    {% endif %}
   </div>
   <div class="os-download-container">
     <div class="osSecondary">

@@ -18,11 +18,17 @@
     <div class="osPrimary">
       <img src="/assets/img/windows-logo.png" alt="Windows Logo">
       <p class="title">Windows</p>
+      {% if windows_version %}
+      <a class="button" href="https://github.com/freedomofpress/dangerzone/releases/download/v{{ windows_version }}/Dangerzone-{{ windows_version }}.msi">
+        Download for Windows ({{ windows_version }})</a>
+        <p class="coming-soon">Version {{ version }} coming soon</p>
+      {% else %}
       <a class="button"
-        href="{% if windows_version %}https://github.com/freedomofpress/dangerzone/releases/download/v{{ windows_version }}/Dangerzone-{{ windows_version }}.msi"{% else %}https://github.com/freedomofpress/dangerzone/releases/download/v{{ version }}/Dangerzone-{{ version }}.msi"{% endif %}>Download for
-        Windows {% if windows_version %}({{ windows_version }}){% endif %}</a>
+        href="https://github.com/freedomofpress/dangerzone/releases/download/v{{ version }}/Dangerzone-{{ version }}.msi">
+        Download for Windows</a>
         <p class="cpu-arch-info">&#65039; <!-- invalid emoji to display same-height whitespace as macOS -->
         </p>
+      {% endif %}
     </div>
     {% endif %}
   </div>

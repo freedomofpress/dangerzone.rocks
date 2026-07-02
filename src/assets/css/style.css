@@ -472,6 +472,12 @@ footer .onion img {
   font-size: small;
 }
 
+#downloads .coming-soon {
+  opacity: 0.9;
+  font-style: italic;
+  font-size: small;
+}
+
 
 .post-time {
   font-weight: bold;

@@ -14,7 +14,7 @@
  */
 
 // Match the breakpoint in style.css.
-const MOBILE_MEDIA_QUERY = "(max-width: 959px)";
+const MOBILE_MEDIA_QUERY = "(max-width: 960px)";
 
 const FOCUSABLE_SELECTOR = [
   "a[href]",
@@ -27,6 +27,11 @@ const FOCUSABLE_SELECTOR = [
 
 class NavMenu extends HTMLElement {
   connectedCallback() {
+    // Without popover support the CSS leaves the plain horizontal nav in
+    // place, so there is nothing to enhance -- and `:popover-open` would be
+    // an unparseable selector, which makes matches() throw.
+    if (!("popover" in HTMLElement.prototype)) return;
+
     this.drawer = this.querySelector("[popover]");
     if (!this.drawer) return;
 
@@ -79,7 +84,12 @@ class NavMenu extends HTMLElement {
     if (open) {
       this.focusable[0]?.focus();
     } else if (this.heldFocus) {
-      this.toggle?.focus();
+      // Past the breakpoint the toggle is display:none and focusing it is a
+      // no-op that drops focus on the body, so fall back to the nav itself.
+      const target = [this.toggle, ...this.focusable].find((el) =>
+        el?.checkVisibility(),
+      );
+      target?.focus();
     }
   }
 

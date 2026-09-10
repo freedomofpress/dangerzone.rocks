@@ -35,6 +35,14 @@
       <span class="visually-hidden">Menu</span>
     </button>
 
+    <!--
+      A real element rather than the popover's ::backdrop, which is not
+      hit-testable: light dismiss does not swallow the click, so without
+      something to catch it, tapping to close also activates whatever link
+      sits underneath.
+    -->
+    <div class="nav-menu-backdrop"></div>
+
     <nav id="main-nav" class="clearfix" popover>
       <button type="button" class="nav-menu-close" popovertarget="main-nav" popovertargetaction="hide">
         <span class="visually-hidden">Close menu</span>

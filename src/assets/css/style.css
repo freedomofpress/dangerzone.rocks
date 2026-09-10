@@ -705,7 +705,7 @@ video {
 /*MOBILE NAVIGATION*/
 
 /*
- * Below 960px the nav collapses into a drawer built on the Popover API: the
+ * At 960px and below the nav collapses into a drawer built on the Popover API: the
  * toggle buttons are popover invokers, so opening, closing, Escape and
  * click-outside dismissal all work without JavaScript. src/assets/js/nav.js
  * layers focus management on top for browsers that run it.
@@ -717,7 +717,8 @@ nav-menu {
 
 /* Only shown once the drawer is in play; see the media query below. */
 .nav-menu-toggle,
-.nav-menu-close {
+.nav-menu-close,
+.nav-menu-backdrop {
   display: none;
 }
 
@@ -749,7 +750,7 @@ header nav .is-active {
  * horizontal nav, which stays usable if cramped.
  */
 @supports selector(:popover-open) {
-  @media (max-width: 959px) {
+  @media (max-width: 960px) {
     header {
       position: relative;
       /* Reserve room for the absolutely positioned toggle. */
@@ -820,8 +821,15 @@ header nav .is-active {
     }
 
     header nav[popover] {
-      /* Kept out of the layout and the tab order until it is opened. */
+      /*
+       * Kept out of the layout and the tab order until it is opened.
+       * flex-direction belongs here rather than on :popover-open: `display`
+       * is discrete-transitioned and stays `flex` through the close
+       * animation, but flex-direction would snap back to `row` and lay the
+       * items out sideways as the drawer slides away.
+       */
       display: none;
+      flex-direction: column;
       position: fixed;
       inset: 0 0 0 auto;
       width: 18.75rem;
@@ -842,7 +850,6 @@ header nav .is-active {
 
     header nav[popover]:popover-open {
       display: flex;
-      flex-direction: column;
       translate: 0 0;
     }
 
@@ -852,23 +859,34 @@ header nav .is-active {
       }
     }
 
-    header nav[popover]::backdrop {
+    .nav-menu-backdrop {
+      position: fixed;
+      inset: 0;
       background-color: var(--color-nav-backdrop);
       opacity: 0;
       transition:
         opacity 0.3s ease-in-out,
-        overlay 0.3s allow-discrete,
         display 0.3s allow-discrete;
     }
 
-    header nav[popover]:popover-open::backdrop {
+    body:has(header nav[popover]:popover-open) .nav-menu-backdrop {
+      display: block;
       opacity: 1;
     }
 
     @starting-style {
-      header nav[popover]:popover-open::backdrop {
+      body:has(header nav[popover]:popover-open) .nav-menu-backdrop {
         opacity: 0;
       }
+    }
+
+    /*
+     * #intro pads its top to clear the old nav, which used to overlap it
+     * because the header was zero-height. The header reserves that space
+     * itself now, so the padding would double up.
+     */
+    #intro {
+      padding-top: 0;
     }
 
     /* Don't scroll the page behind the open drawer. */
@@ -919,7 +937,7 @@ header nav .is-active {
 
 @media (prefers-reduced-motion: reduce) {
   header nav[popover],
-  header nav[popover]::backdrop {
+  .nav-menu-backdrop {
     transition: none;
   }
 }

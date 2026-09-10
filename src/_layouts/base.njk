@@ -22,36 +22,53 @@
   <meta property="og:description"
     content="Take potentially dangerous PDFs, office documents, or images and convert them to a safe PDF.">
   <link rel="alternate" type="application/rss+xml" title="Dangerzone news feed" href="/feed.xml" />
+  <script src="/assets/js/nav.js" defer></script>
 </head>
 
 <body>
 <header class="index-header">
-  <nav class="clearfix">
-    <ul>
-      {% set navItems = [
-        {url: '/', title: 'Main Page'},
-        {url: '/about/', title: 'About'},
-        {url: '/journalists/', title: 'For Journalists'},
-        {url: '/news/', title: 'News'},
-        {url: 'https://github.com/freedomofpress/dangerzone/issues', title: 'Report an Issue', external: true},
-        {url: 'https://github.com/freedomofpress/dangerzone', title: 'Code', external: true},
-        {url: 'https://social.freedom.press/@dangerzone', title: 'Mastodon', external: true, relMe: true}
-      ] %}
+  <nav-menu>
+    <button type="button" class="nav-menu-toggle" popovertarget="main-nav">
+      <span class="nav-menu-toggle-bar"></span>
+      <span class="nav-menu-toggle-bar"></span>
+      <span class="nav-menu-toggle-bar"></span>
+      <span class="visually-hidden">Menu</span>
+    </button>
 
-      {% for item in navItems %}
-        <li>
-          {% if page.url == item.url %}
-            {{ item.title }}
-          {% else %}
-            <a href="{{ item.url }}"
-               {% if item.external %}target="_blank"{% endif %}
-               {% if item.relMe %}rel="me"{% endif %}
-            >{{ item.title }}</a>
-          {% endif %}
-        </li>
-      {% endfor %}
-    </ul>
-  </nav>
+    <!-- Catches the click that dismisses the drawer; see style.css. -->
+    <div class="nav-menu-backdrop"></div>
+
+    <nav id="main-nav" popover>
+      <button type="button" class="nav-menu-close" popovertarget="main-nav" popovertargetaction="hide">
+        <span class="visually-hidden">Close menu</span>
+      </button>
+
+      <ul>
+        {% set navItems = [
+          {url: '/', title: 'Main Page'},
+          {url: '/about/', title: 'About'},
+          {url: '/journalists/', title: 'For Journalists'},
+          {url: '/news/', title: 'News'},
+          {url: 'https://github.com/freedomofpress/dangerzone/issues', title: 'Report an Issue', external: true},
+          {url: 'https://github.com/freedomofpress/dangerzone', title: 'Code', external: true},
+          {url: 'https://social.freedom.press/@dangerzone', title: 'Mastodon', external: true, relMe: true}
+        ] %}
+
+        {% for item in navItems %}
+          <li>
+            {% if page.url == item.url %}
+              <span class="is-active" aria-current="page">{{ item.title }}</span>
+            {% else %}
+              <a href="{{ item.url }}"
+                 {% if item.external %}target="_blank"{% endif %}
+                 {% if item.relMe %}rel="me"{% endif %}
+              >{{ item.title }}</a>
+            {% endif %}
+          </li>
+        {% endfor %}
+      </ul>
+    </nav>
+  </nav-menu>
 </header>
   <main>
   {{ content | safe }}

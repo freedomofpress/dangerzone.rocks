@@ -25,6 +25,25 @@
   --color-text-alternative: var(--color-background);
   --color-menu-text: var(--color-text);
   --color-headers: var(--color-background);
+  --color-nav-drawer-background: var(--color-background-alternative);
+  --color-nav-drawer-text: var(--color-text-alternative);
+  --color-nav-drawer-hover-background: rgba(255, 255, 255, 0.1);
+  --color-nav-drawer-active-background: var(--color-accent-background);
+  --color-nav-drawer-active-text: var(--color-accent-text);
+  --color-nav-backdrop: rgba(0, 0, 0, 0.7);
+}
+
+/* Available to screen readers, invisible on screen. */
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  border: 0;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
 }
 
 .clearfix:after {
@@ -680,5 +699,242 @@ video {
 
   a {
     color: var(--color-background);
+  }
+}
+
+/*MOBILE NAVIGATION*/
+
+/*
+ * At 960px and below the nav collapses into a drawer built on the Popover
+ * API: the toggle buttons are popover invokers, so opening, closing, Escape
+ * and click-outside dismissal all work without JavaScript. src/assets/js/nav.js
+ * layers focus management on top for browsers that run it.
+ */
+
+/* Custom elements are inline by default. */
+nav-menu {
+  display: block;
+}
+
+/* Only shown once the drawer is in play; see the media query below. */
+.nav-menu-toggle,
+.nav-menu-close,
+.nav-menu-backdrop {
+  display: none;
+}
+
+/*
+ * The nav carries the popover attribute at every width, so undo the UA popover
+ * styles here and let the drawer re-apply what it needs. That includes
+ * `display`: outside the drawer the nav is an ordinary always-visible nav, and
+ * the drawer puts the hiding back.
+ */
+header nav[popover] {
+  display: block;
+  position: static;
+  width: auto;
+  height: auto;
+  margin: 0;
+  border: 0;
+  overflow: visible;
+  color: inherit;
+  background: none;
+}
+
+header nav .is-active {
+  font-weight: bold;
+}
+
+/*
+ * Browsers without popover support never get the drawer: they keep the plain
+ * horizontal nav, which stays usable if cramped.
+ */
+@supports selector(:popover-open) {
+  @media (max-width: 960px) {
+    header {
+      position: relative;
+      /* Reserve room for the absolutely positioned toggle. */
+      min-height: 4.5rem;
+    }
+
+    /*
+     * #intro pads its own top to clear the nav, which used to overlap it
+     * because the header was zero-height. The header reserves that space
+     * itself now, so the padding would double up.
+     */
+    #intro {
+      padding-top: 0;
+    }
+
+    /*
+     * An open drawer paints in the top layer, above the toggle, so the drawer
+     * carries its own close button rather than the hamburger morphing into an
+     * X. Both sit at the same offset from the right edge of the viewport, so
+     * it still reads as one control changing shape.
+     */
+    .nav-menu-toggle,
+    .nav-menu-close {
+      position: absolute;
+      top: 1.5rem;
+      right: 1.5rem;
+      width: 1.75rem;
+      height: 1.25rem;
+      padding: 0;
+      border: 0;
+      background: none;
+      cursor: pointer;
+    }
+
+    .nav-menu-toggle {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+
+      /* Flex stretches the bars to the full width of the button. */
+      .nav-menu-toggle-bar {
+        height: 3px;
+        border-radius: 1px;
+        background-color: var(--color-menu-text);
+      }
+    }
+
+    .nav-menu-close {
+      display: block;
+
+      &::before,
+      &::after {
+        content: "";
+        position: absolute;
+        top: 50%;
+        left: 0;
+        width: 100%;
+        height: 3px;
+        translate: 0 -50%;
+        border-radius: 1px;
+        background-color: var(--color-nav-drawer-text);
+      }
+
+      &::before {
+        rotate: 45deg;
+      }
+
+      &::after {
+        rotate: -45deg;
+      }
+    }
+
+    header nav[popover] {
+      /*
+       * Kept out of the layout and the tab order until it is opened.
+       * flex-direction belongs here rather than on :popover-open, because
+       * `display` is discrete-transitioned and stays `flex` through the close
+       * animation while flex-direction would snap back to `row`, laying the
+       * items out sideways as the drawer slid away.
+       */
+      display: none;
+      flex-direction: column;
+      position: fixed;
+      inset: 0 0 0 auto;
+      width: 18.75rem;
+      max-width: 80%;
+      padding: 4rem 1rem 1rem;
+      overflow: hidden;
+      float: none;
+      font-size: 1rem;
+      color: var(--color-nav-drawer-text);
+      background-color: var(--color-nav-drawer-background);
+      box-shadow: -2px 0 5px rgba(0, 0, 0, 0.3);
+      translate: 100% 0;
+      transition:
+        translate 0.3s ease-in-out,
+        overlay 0.3s allow-discrete,
+        display 0.3s allow-discrete;
+
+      &:popover-open {
+        display: flex;
+        translate: 0 0;
+
+        @starting-style {
+          translate: 100% 0;
+        }
+      }
+
+      /*
+       * The list scrolls rather than the drawer, so the close button --
+       * positioned against the drawer -- stays put on viewports too short to
+       * show every item.
+       */
+      ul {
+        flex: 1;
+        overflow-y: auto;
+        margin: 0;
+        padding: 0;
+        list-style: none;
+      }
+
+      li {
+        display: block;
+        margin: 0 0 0.5rem 0;
+      }
+
+      a,
+      .is-active {
+        display: block;
+        padding: 0.75rem 1rem;
+        border-radius: 3px;
+        font-size: 1.1rem;
+        line-height: 1.5rem;
+        color: var(--color-nav-drawer-text);
+        text-decoration: none;
+      }
+
+      .is-active {
+        background-color: var(--color-nav-drawer-active-background);
+        color: var(--color-nav-drawer-active-text);
+      }
+
+      a:hover,
+      a:focus-visible {
+        background-color: var(--color-nav-drawer-hover-background);
+      }
+    }
+
+    /*
+     * A real element rather than the popover's ::backdrop, which is not
+     * hit-testable: light dismiss does not swallow the click, so without
+     * something to catch it, tapping to close also activates whatever link
+     * sits underneath the drawer.
+     */
+    .nav-menu-backdrop {
+      position: fixed;
+      inset: 0;
+      background-color: var(--color-nav-backdrop);
+      opacity: 0;
+      transition:
+        opacity 0.3s ease-in-out,
+        display 0.3s allow-discrete;
+    }
+
+    /* What changes while the drawer is open. */
+    html:has(nav[popover]:popover-open) {
+      /* Don't scroll the page behind the drawer. */
+      overflow: hidden;
+
+      .nav-menu-backdrop {
+        display: block;
+        opacity: 1;
+
+        @starting-style {
+          opacity: 0;
+        }
+      }
+    }
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  header nav[popover],
+  .nav-menu-backdrop {
+    transition: none;
   }
 }

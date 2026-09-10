@@ -1,107 +1,108 @@
-document.addEventListener('DOMContentLoaded', () => {
-  // --- Elements ---
-  const navToggle = document.getElementById('nav-toggle');
-  const mainNav = document.getElementById('main-nav');
-  const navContent = mainNav?.querySelector('.nav-content');
-  const toggleLabel = document.querySelector('.nav-toggle-label');
+/*
+ * Progressive enhancement for the mobile navigation drawer.
+ *
+ * The drawer is a native popover, so opening it, closing it, dismissing it
+ * with Escape and dismissing it by clicking outside all work with JavaScript
+ * disabled. This adds the parts the platform doesn't hand us:
+ *
+ *   - moving focus into the drawer when it opens, and back onto the toggle
+ *     when it closes
+ *   - keeping Tab inside the drawer while it is open
+ *   - closing the drawer when the viewport grows past the mobile breakpoint
+ *   - an explicit aria-expanded on the toggle, since browsers don't all expose
+ *     the implicit expanded state of a popover invoker
+ */
 
-  // --- Constants ---
-  const MOBILE_BREAKPOINT = 960; // Match CSS breakpoint
-  const FOCUSABLE_SELECTOR = 'a[href]:not([disabled]), button:not([disabled]), textarea:not([disabled]), input:not([disabled]), select:not([disabled])';
+// Match the breakpoint in style.css.
+const MOBILE_MEDIA_QUERY = "(max-width: 959px)";
 
-  // --- State ---
-  let isMobile = window.innerWidth < MOBILE_BREAKPOINT;
-  let focusableElements = [];
-  let firstFocusableElement = null;
-  let lastFocusableElement = null;
+const FOCUSABLE_SELECTOR = [
+  "a[href]",
+  "button:not([disabled])",
+  "input:not([disabled])",
+  "select:not([disabled])",
+  "textarea:not([disabled])",
+  '[tabindex]:not([tabindex="-1"])',
+].join(", ");
 
-  // --- Guard Clause ---
-  if (!navToggle || !mainNav || !navContent || !toggleLabel) {
-    console.warn('Mobile navigation elements missing, script not initialized.');
-    return;
-  }
+class NavMenu extends HTMLElement {
+  connectedCallback() {
+    this.drawer = this.querySelector("[popover]");
+    if (!this.drawer) return;
 
-  // --- Functions ---
-  function updateFocusableElements() {
-    focusableElements = Array.from(
-      navContent.querySelectorAll(FOCUSABLE_SELECTOR)
+    this.toggle = this.querySelector(
+      `[popovertarget="${this.drawer.id}"]:not([popovertargetaction="hide"])`,
     );
-    firstFocusableElement = focusableElements[0] || null;
-    lastFocusableElement = focusableElements[focusableElements.length - 1] || null;
+    this.toggle?.setAttribute("aria-expanded", "false");
+
+    this.mobile = window.matchMedia(MOBILE_MEDIA_QUERY);
+
+    this.onBeforeToggle = this.onBeforeToggle.bind(this);
+    this.onToggle = this.onToggle.bind(this);
+    this.onKeydown = this.onKeydown.bind(this);
+    this.onBreakpointChange = this.onBreakpointChange.bind(this);
+
+    this.drawer.addEventListener("beforetoggle", this.onBeforeToggle);
+    this.drawer.addEventListener("toggle", this.onToggle);
+    this.drawer.addEventListener("keydown", this.onKeydown);
+    this.mobile.addEventListener("change", this.onBreakpointChange);
   }
 
-  function handleFocusTrap(e) {
-    // Only trap focus when mobile and the nav is open
-    if (!isMobile || !navToggle.checked) return;
+  disconnectedCallback() {
+    if (!this.drawer) return;
 
-    const isTabPressed = e.key === 'Tab' || e.keyCode === 9;
-    if (!isTabPressed) return;
-
-    // If there are no focusable elements, don't trap
-    if (!firstFocusableElement) {
-        e.preventDefault(); // Prevent tabbing out of an empty menu
-        return;
-    }
-
-    if (e.shiftKey) { // Shift + Tab
-      // If focused on the first element, wrap to the last
-      if (document.activeElement === firstFocusableElement) {
-        lastFocusableElement.focus();
-        e.preventDefault();
-      }
-    } else { // Tab
-      // If focused on the last element, wrap to the first
-      if (document.activeElement === lastFocusableElement) {
-        firstFocusableElement.focus();
-        e.preventDefault();
-      }
-    }
+    this.drawer.removeEventListener("beforetoggle", this.onBeforeToggle);
+    this.drawer.removeEventListener("toggle", this.onToggle);
+    this.drawer.removeEventListener("keydown", this.onKeydown);
+    this.mobile.removeEventListener("change", this.onBreakpointChange);
   }
 
-  function setNavOpenState(isOpen) {
-    if (isOpen && isMobile) {
-      updateFocusableElements();
-      // Delay focus slightly to allow CSS transition
-      setTimeout(() => {
-        firstFocusableElement?.focus();
-      }, 150); // Short delay after opening animation starts
-      mainNav.addEventListener('keydown', handleFocusTrap);
-      document.body.style.overflow = 'hidden'; // Prevent background scroll
-    } else {
-      mainNav.removeEventListener('keydown', handleFocusTrap);
-      document.body.style.overflow = ''; // Restore background scroll
-    }
+  get focusable() {
+    return Array.from(this.drawer.querySelectorAll(FOCUSABLE_SELECTOR));
   }
 
-  function handleResize() {
-    const stillIsMobile = window.innerWidth < MOBILE_BREAKPOINT;
-    if (isMobile !== stillIsMobile) {
-      isMobile = stillIsMobile;
-      // Re-evaluate open state on resize (especially if crossing breakpoint)
-      setNavOpenState(navToggle.checked);
+  get isOpen() {
+    return this.drawer.matches(":popover-open");
+  }
+
+  onBeforeToggle(event) {
+    // Checked while the drawer is still open, because by the time it has
+    // closed the focused element is gone and activeElement is the body.
+    this.heldFocus =
+      event.newState !== "open" && this.drawer.contains(document.activeElement);
+  }
+
+  onToggle(event) {
+    const open = event.newState === "open";
+    this.toggle?.setAttribute("aria-expanded", String(open));
+
+    if (open) {
+      this.focusable[0]?.focus();
+    } else if (this.heldFocus) {
+      this.toggle?.focus();
     }
   }
 
-  // --- Event Listeners ---
-  navToggle.addEventListener('change', () => setNavOpenState(navToggle.checked));
-  window.addEventListener('resize', handleResize, { passive: true }); // Use passive listener for resize
-  toggleLabel.addEventListener('keydown', (e) => {
-    // Toggle menu when Enter or Space is pressed
-    if (e.key === 'Enter' || e.key === ' ') {
-      e.preventDefault();
-      navToggle.checked = !navToggle.checked;
-      navToggle.dispatchEvent(new Event('change'));
-    }
-  });
+  onKeydown(event) {
+    if (event.key !== "Tab" || !this.isOpen) return;
 
-  // Close nav on Escape key
-  document.addEventListener('keydown', (e) => {
-    if (isMobile && navToggle.checked && (e.key === 'Escape')) {
-      navToggle.checked = false; // This will trigger the 'change' event listener above
-    }
-  });
+    // The drawer covers the page, so wrap Tab around rather than letting focus
+    // wander behind it.
+    const focusable = this.focusable;
+    if (focusable.length === 0) return;
 
-  // --- Initial Setup ---
-  handleResize();
-  setNavOpenState(navToggle.checked);
-});
+    const edge = event.shiftKey ? focusable[0] : focusable[focusable.length - 1];
+    if (document.activeElement !== edge) return;
+
+    event.preventDefault();
+    (event.shiftKey ? focusable[focusable.length - 1] : focusable[0]).focus();
+  }
+
+  onBreakpointChange(event) {
+    // The drawer only exists at mobile widths; growing past the breakpoint
+    // turns the nav back into a plain horizontal list.
+    if (!event.matches && this.isOpen) this.drawer.hidePopover();
+  }
+}
+
+customElements.define("nav-menu", NavMenu);

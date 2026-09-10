@@ -22,21 +22,24 @@
   <meta property="og:description"
     content="Take potentially dangerous PDFs, office documents, or images and convert them to a safe PDF.">
   <link rel="alternate" type="application/rss+xml" title="Dangerzone news feed" href="/feed.xml" />
-  <script src="/assets/js/nav.js">
+  <script src="/assets/js/nav.js" defer></script>
 </head>
 
 <body>
-<header>
-  <input type="checkbox" id="nav-toggle" class="nav-toggle-checkbox" hidden aria-hidden="true">
+<header class="index-header">
+  <nav-menu>
+    <button type="button" class="nav-menu-toggle" popovertarget="main-nav">
+      <span class="nav-menu-toggle-bar"></span>
+      <span class="nav-menu-toggle-bar"></span>
+      <span class="nav-menu-toggle-bar"></span>
+      <span class="visually-hidden">Menu</span>
+    </button>
 
-  <label for="nav-toggle" class="nav-toggle-label" aria-label="Toggle navigation" tabindex="0">
-    <span class="hamburger-line"></span>
-    <span class="hamburger-line"></span>
-    <span class="hamburger-line"></span>
-  </label>
+    <nav id="main-nav" class="clearfix" popover>
+      <button type="button" class="nav-menu-close" popovertarget="main-nav" popovertargetaction="hide">
+        <span class="visually-hidden">Close menu</span>
+      </button>
 
-  <nav class="main-nav clearfix" id="main-nav">
-    <div class="nav-content">
       <ul>
         {% set navItems = [
           {url: '/', title: 'Main Page'},
@@ -49,9 +52,9 @@
         ] %}
 
         {% for item in navItems %}
-          <li {% if page.url == item.url %} class="is-active" {% endif %}>
+          <li>
             {% if page.url == item.url %}
-              {{ item.title }}
+              <span class="is-active" aria-current="page">{{ item.title }}</span>
             {% else %}
               <a href="{{ item.url }}"
                  {% if item.external %}target="_blank"{% endif %}
@@ -61,10 +64,8 @@
           </li>
         {% endfor %}
       </ul>
-    </div>
-  </nav>
-  <label for="nav-toggle" class="nav-overlay" aria-label="Close navigation"></label>
-
+    </nav>
+  </nav-menu>
 </header>
   <main>
   {{ content | safe }}
@@ -81,7 +82,6 @@
       </div>
     </div>
   </footer>
-
 </body>
 
 </html>

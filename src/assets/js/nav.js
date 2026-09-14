@@ -1,32 +1,20 @@
 /*
- * Progressive enhancement for the mobile navigation drawer.
- *
- * The drawer is a native popover, so opening it, closing it, dismissing it
- * with Escape and dismissing it by clicking outside all work with JavaScript
- * disabled. This adds the parts the platform doesn't hand us:
- *
- *   - moving focus into the drawer when it opens, and back out when it closes
- *   - keeping Tab inside the drawer while it is open
- *   - an explicit aria-expanded on the toggle, since browsers don't all expose
- *     the implicit expanded state of a popover invoker
- *   - closing the drawer when the viewport grows past the mobile breakpoint
+ * The drawer is a native popover, so it works with JavaScript disabled.
+ * This adds what the platform doesn't hand us: focus management, Tab
+ * trapping, aria-expanded, and closing when the viewport leaves mobile.
  */
 
 // Match the breakpoint in style.css.
 const MOBILE_MEDIA_QUERY = "(max-width: 960px)";
 
-// The drawer only ever holds nav links and the close button.
 const FOCUSABLE_SELECTOR = "a[href], button:not([disabled])";
 
-// Whether the element is rendered at all. Cheaper to reason about than
-// checkVisibility(), which Safari only picked up in 17.4 -- after popover.
+// Not checkVisibility(), which Safari only picked up after popover.
 const isRendered = (element) => element.getClientRects().length > 0;
 
 class NavMenu extends HTMLElement {
   connectedCallback() {
-    // Without popover support the CSS leaves the plain horizontal nav in
-    // place, so there is nothing to enhance -- and `:popover-open` would be an
-    // unparseable selector, which makes matches() throw.
+    // No popover, no drawer -- and :popover-open would make matches() throw.
     if (!("popover" in HTMLElement.prototype)) return;
 
     this.drawer = this.querySelector("[popover]");
@@ -35,7 +23,6 @@ class NavMenu extends HTMLElement {
 
     this.toggle.setAttribute("aria-expanded", "false");
 
-    // One controller to unsubscribe everything on disconnect.
     this.controller = new AbortController();
     const { signal } = this.controller;
 
@@ -67,9 +54,8 @@ class NavMenu extends HTMLElement {
       return;
     }
 
-    // Closing took the focused element off the page. Browsers only restore
-    // focus to the invoker for some dismissals, and past the breakpoint the
-    // toggle itself is display:none, so fall back to whatever is on screen.
+    // Browsers only restore focus to the invoker for some dismissals, and
+    // past the breakpoint the toggle is display:none, so pick what's visible.
     if (document.activeElement === document.body) {
       [this.toggle, ...this.focusable].find(isRendered)?.focus();
     }
@@ -78,8 +64,6 @@ class NavMenu extends HTMLElement {
   onKeydown = (event) => {
     if (event.key !== "Tab" || !this.isOpen) return;
 
-    // The drawer covers the page, so wrap Tab around rather than letting focus
-    // wander behind it.
     const focusable = this.focusable;
     if (focusable.length === 0) return;
 
@@ -94,8 +78,6 @@ class NavMenu extends HTMLElement {
   };
 
   onBreakpointChange = (event) => {
-    // The drawer only exists at mobile widths; growing past the breakpoint
-    // turns the nav back into a plain horizontal list.
     if (!event.matches && this.isOpen) this.drawer.hidePopover();
   };
 }

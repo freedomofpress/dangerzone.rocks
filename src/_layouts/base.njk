@@ -37,10 +37,7 @@
     <div class="nav-menu-backdrop"></div>
 
     <nav id="main-nav" popover>
-      <button type="button" class="nav-menu-close" popovertarget="main-nav" popovertargetaction="hide">
-        <span class="visually-hidden">Close menu</span>
-      </button>
-
+      <button type="button" class="nav-menu-close" popovertarget="main-nav" popovertargetaction="hide" aria-label="Close menu">✕</button>
       <ul>
         {% set navItems = [
           {url: '/', title: 'Main Page'},

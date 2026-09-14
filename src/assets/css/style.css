@@ -633,8 +633,8 @@ video {
 
 /*
  * At 960px and below the nav collapses into a drawer built on the Popover
- * API, so it opens, closes and dismisses without JavaScript; nav.js layers
- * focus management on top.
+ * API, so it opens, closes and dismisses (Escape or a tap outside) without
+ * JavaScript; nav.js layers focus management on top.
  */
 
 /* Custom elements are inline by default. */
@@ -676,15 +676,11 @@ header nav .is-active {
       padding-top: 0;
     }
 
-    /* The open drawer paints in the top layer, above the toggle, so it
-       carries its own close button. */
     .nav-menu-toggle,
     .nav-menu-close {
       position: absolute;
       top: 1.5rem;
       right: 1.5rem;
-      width: 1.75rem;
-      height: 1.25rem;
       padding: 0;
       border: 0;
       background: none;
@@ -692,6 +688,8 @@ header nav .is-active {
     }
 
     .nav-menu-toggle {
+      width: 1.75rem;
+      height: 1.25rem;
       display: flex;
       flex-direction: column;
       justify-content: space-between;
@@ -708,51 +706,34 @@ header nav .is-active {
       }
     }
 
+    /* The open drawer paints in the top layer, above the toggle, so it
+       carries its own close button. */
     .nav-menu-close {
       display: block;
-
-      &::before,
-      &::after {
-        content: "";
-        position: absolute;
-        top: 50%;
-        left: 0;
-        width: 100%;
-        height: 3px;
-        translate: 0 -50%;
-        border-radius: 1px;
-        background-color: var(--color-nav-drawer-text);
-      }
-
-      &::before {
-        rotate: 45deg;
-      }
-
-      &::after {
-        rotate: -45deg;
-      }
+      /* Widen the touch target around the glyph. */
+      padding: 0.5rem;
+      font-size: 1.5rem;
+      line-height: 1;
+      color: var(--color-nav-drawer-text);
     }
 
     header nav[popover] {
       display: none;
-      flex-direction: column;
       position: fixed;
       inset: 0 0 0 auto;
       width: 18.75rem;
       max-width: 80%;
       padding: 4rem 1rem 1rem;
+      overflow-y: auto;
       color: var(--color-nav-drawer-text);
       background-color: var(--color-nav-drawer-background);
       box-shadow: -2px 0 5px rgba(0, 0, 0, 0.3);
 
       &:popover-open {
-        display: flex;
+        display: block;
       }
 
-      /* The list scrolls, not the drawer, so the close button stays put. */
       ul {
-        flex: 1;
-        overflow-y: auto;
         margin: 0;
         padding: 0;
         list-style: none;

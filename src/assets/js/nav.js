@@ -7,7 +7,7 @@
 // Match the breakpoint in style.css.
 const MOBILE_MEDIA_QUERY = "(max-width: 960px)";
 
-const FOCUSABLE_SELECTOR = "a[href], button:not([disabled])";
+const FOCUSABLE_SELECTOR = "a[href], button";
 
 // Not checkVisibility(), which Safari only picked up after popover.
 const isRendered = (element) => element.getClientRects().length > 0;

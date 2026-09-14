@@ -710,7 +710,6 @@ header nav .is-active {
        carries its own close button. */
     .nav-menu-close {
       display: block;
-      /* Widen the touch target around the glyph. */
       padding: 0.5rem;
       font-size: 1.5rem;
       line-height: 1;
@@ -773,7 +772,6 @@ header nav .is-active {
     .nav-menu-backdrop {
       position: fixed;
       inset: 0;
-      /* Above positioned page content; the drawer paints in the top layer. */
       z-index: 1;
       background-color: var(--color-nav-backdrop);
     }

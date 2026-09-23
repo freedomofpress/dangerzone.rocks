@@ -1,9 +1,9 @@
 /*
-  X-Frame-Options: "DENY" always
-  X-Content-Type-Options: "nosniff" always
-  X-XSS-Protection: "1; mode=block" always
-  Referrer-Policy: "strict-origin" always
-  Cross-Origin-Opener-Policy: "same-origin" always
+  X-Frame-Options: DENY
+  X-Content-Type-Options: nosniff
+  X-XSS-Protection: 1; mode=block
+  Referrer-Policy: strict-origin
+  Cross-Origin-Opener-Policy: same-origin
 
 # Inform bots not to index the default CF pages URLs for the site
 https://:project.pages.dev/*

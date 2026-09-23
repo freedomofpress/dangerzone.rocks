@@ -1,0 +1,36 @@
+---
+name: CI
+
+on:
+  pull_request:
+    types: ["opened", "synchronize"]
+  push:
+    branches: ["main", "staging"]
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  lint-actions:
+    uses: freedomofpress/actionslib/.github/workflows/lint-actions.yaml@main
+
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v6
+      with:
+        persist-credentials: false
+
+    - name: Install NodeJS
+      uses: actions/setup-node@v6
+      with:
+        node-version-file: .nvmrc
+
+    - name: Build
+      run: |
+        npm ci
+        npm run build
+

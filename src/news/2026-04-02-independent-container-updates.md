@@ -21,7 +21,7 @@ Originally, Dangerzone bundled the container image within its installers, which 
 
 This “Independent Container Updates” feature makes that stress go away, enabling us to release a new version of the Dangerzone container quickly, and without blindly trusting the container registry used to distribute the images.
 
-Here is what we're doing when [releasing a container image](https://github.com/freedomofpress/dangerzone/blob/main/docs/developer/release/sign-image.md), implementing the steps best known as the [Triangle of Secure Code delivery](https://defuse.ca/triangle-of-secure-code-delivery.htm):
+Here is what we're doing when [releasing a container image](https://docs.dangerzone.rocks/latest/explanation/sandbox-updates/#why-you-can-trust-a-downloaded-image), implementing the steps best known as the [Triangle of Secure Code delivery](https://defuse.ca/triangle-of-secure-code-delivery.htm):
 
 1. Attesting its provenance.  
 2. Making sure it is reproducible.  

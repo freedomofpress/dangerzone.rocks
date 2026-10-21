@@ -17,9 +17,17 @@
     <div class="osPrimary">
       <img src="/assets/img/windows-logo.png" alt="Windows Logo">
       <p class="title">Windows</p>
+        {% set latest_version = collections.posts | getLatestVersion %}
+        {% if version == latest_version %}
       <a class="button"
-        href="https://github.com/freedomofpress/dangerzone/releases/download/v{{ version }}/Dangerzone-{{ version }}.msi">Download for
-        Windows</a>
+        href="https://github.com/freedomofpress/dangerzone/releases/download/v{{ version }}/Dangerzone-{{ version }}.msi">Download</a>
+        <a class="button"
+        href="https://apps.microsoft.com/detail/xp8jgmqmv1sb96">Install from Microsoft Store</a>
+        {% else %}
+      <a class="button"
+        href="https://github.com/freedomofpress/dangerzone/releases/download/v{{ version }}/Dangerzone-{{ version }}.msi">Download for Windows</a>
+        {% endif %}
+
         <p class="cpu-arch-info">&#65039; <!-- invalid emoji to display same-height whitespace as macOS -->
         </p>
     </div>

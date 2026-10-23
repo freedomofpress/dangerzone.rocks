@@ -185,6 +185,14 @@ a:hover {
   text-decoration: none;
   white-space: nowrap;
   color: #d6d6d6;
+  display: flex;
+  align-items: center;
+  gap: 0.325rem;
+
+  .fpf-banner__arrow {
+    width: 0.7em;
+    height: 0.7em;
+  }
 
   &:hover,
   &:focus-visible {

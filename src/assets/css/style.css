@@ -137,6 +137,84 @@ a:hover {
   padding: 3rem;
 }
 
+/*FPF BANNER*/
+
+.fpf-banner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 1rem 1.5rem;
+  background-color: #0c0c0f;
+  color: #fff;
+  /* Same font stacks as the banners on other FPF sites, not this site's Inter */
+  font-family: "Helvetica Neue", "Segoe UI", "Roboto", "Helvetica", "Arial", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+  font-size: 0.875rem;
+  font-weight: 500;
+  line-height: 1.2;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.fpf-banner__org {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin: 0;
+  line-height: inherit;
+  text-wrap: balance;
+}
+
+.fpf-banner__mark {
+  flex-shrink: 0;
+  width: 1.25rem;
+  height: auto;
+}
+
+.fpf-banner__name {
+  color: #d6d6d6;
+}
+
+.fpf-banner__link {
+  flex-shrink: 0;
+  font-family: "Roboto Mono", monospace;
+  font-size: 0.8125rem;
+  line-height: inherit;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  text-decoration: none;
+  white-space: nowrap;
+  color: #d6d6d6;
+  display: flex;
+  align-items: center;
+  gap: 0.325rem;
+
+  .fpf-banner__arrow {
+    width: 0.7em;
+    height: 0.7em;
+  }
+
+  &:hover,
+  &:focus-visible {
+    color: #fff;
+  }
+
+  &:focus-visible {
+    outline: 2px solid #fff;
+    outline-offset: 2px;
+  }
+}
+
+@media only screen and (max-width: 480px) {
+  .fpf-banner {
+    font-size: 0.75rem;
+  }
+
+  .fpf-banner__link {
+    font-size: 0.625rem;
+  }
+}
+
 /*HEADER*/
 
 header nav {

@@ -197,6 +197,7 @@ a:hover {
   &:hover,
   &:focus-visible {
     color: #fff;
+    text-decoration: underline;
   }
 
   &:focus-visible {
@@ -206,6 +207,20 @@ a:hover {
 }
 
 @media only screen and (max-width: 480px) {
+  .fpf-banner {
+    padding: 1rem;
+  }
+
+  .fpf-banner__org {
+    gap: 0.75rem;
+  }
+
+  .fpf-banner__link {
+    font-size: 0.8rem;
+  }
+}
+
+@media only screen and (max-width: 360px) {
   .fpf-banner {
     font-size: 0.75rem;
   }
